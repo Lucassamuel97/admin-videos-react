@@ -6,7 +6,7 @@ export function Layout({children}: {children: React.ReactNode}) {
     <Box>
         <Container 
     
-        maxWidth="lg" sx={{ mt: 4, mb: 4, bg: "white" }}>
+        maxWidth="lg" sx={{ mt: 4, mb: 4, color: "white" }}>
             {children}
         </Container>
     </Box>
