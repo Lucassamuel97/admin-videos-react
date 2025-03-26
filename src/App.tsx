@@ -4,18 +4,9 @@ import { Layout } from "./components/Layout";
 import { appTheme } from "./config/theme";
 import { Typography } from "@mui/material";
 import { Routes, Route, Link } from "react-router-dom";
-
-const Home = () => {
-  return (
-    <Typography variant="h3">Home</Typography>
-  )
-}
-
-const About = () => {
-  return (
-    <Typography variant="h3">About</Typography>
-  )
-}
+import { CategoryList } from "./features/categories/ListCategory";
+import { CategoryCreate } from "./features/categories/CreateCategory";
+import { CategoryEdit } from "./features/categories/EditCategory";
 
 
 const App = () => {
@@ -31,8 +22,19 @@ const App = () => {
         <Layout>
           <h1>Welcome to router</h1>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About/>} />
+            <Route path="/" element={<CategoryList />} />
+            <Route path="/categories" element={<CategoryList />} />
+            <Route path="/categories/create" element={<CategoryCreate/>} />
+            <Route path="/categories/edit/:id" element={<CategoryEdit/>} />
+
+            <Route path="*" element={
+              <Box>
+                <Typography variant="h3">
+                  404 - Not Found
+                </Typography>
+                <Link to="/">Go Home</Link>
+              </Box>
+            } />
           </Routes>
         </Layout>
       </Box>
