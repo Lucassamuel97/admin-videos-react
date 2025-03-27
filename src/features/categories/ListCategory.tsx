@@ -1,8 +1,8 @@
-import { Box, Button, IconButton, Typography } from "@mui/material"
+import { Box, Button, debounce, IconButton, Typography } from "@mui/material"
 import { useAppSelector } from "../../app/hooks"
 import { selectCategories } from "./categorySlice";
 import { Link } from "react-router-dom";
-import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp, GridToolbar } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
@@ -52,21 +52,21 @@ export const CategoryList = () => {
 
     function renderIsActiveCell(rowData: GridRenderCellParams) {
         return (
-          <Typography color={rowData.value ? "primary" : "secondary"}>
-            {rowData.value ? "Active" : "Inactive"}
-          </Typography>
+            <Typography color={rowData.value ? "primary" : "secondary"}>
+                {rowData.value ? "Active" : "Inactive"}
+            </Typography>
         );
     }
     function renderActionsCell(params: GridRenderCellParams) {
         return (
-          <IconButton
-            color="secondary"
-            onClick={() => console.log(params.row.id)}
-            aria-label="delete"
-            data-testid="delete-button"
-          >
-            <DeleteIcon />
-          </IconButton>
+            <IconButton
+                color="secondary"
+                onClick={() => console.log(params.row.id)}
+                aria-label="delete"
+                data-testid="delete-button"
+            >
+                <DeleteIcon />
+            </IconButton>
         );
     }
 
@@ -86,11 +86,33 @@ export const CategoryList = () => {
             </Box>
             <Typography variant="h3">
                 CategoryList Page
-                {/* {categories.map((category) => (
+
+            </Typography>
+            {/* {categories.map((category) => (
                     <Typography key={category.id}>{category.name}</Typography>
                 ))} */}
-                <DataGrid rows={rows} columns={columns} />
-            </Typography>
+            <div style={{ height: 400, width: '100%' }}>
+                <DataGrid 
+                    pageSizeOptions={[2, 50, 100, { value: -1, label: 'All' }]}
+                    slots={{
+                        toolbar: GridToolbar,
+                    }}
+                    disableColumnSelector={true}
+                    disableColumnFilter={true}
+                    disableDensitySelector={true}
+                    disableRowSelectionOnClick={true}
+                    rows={rows}
+                    columns={columns}
+                    slotProps={{
+                        toolbar: {
+                            showQuickFilter: true,
+                            quickFilterProps: {
+                                debounceMs: 500,
+                            },
+                        },
+                    }}
+                />
+            </div>
         </Box>
     )
 }
