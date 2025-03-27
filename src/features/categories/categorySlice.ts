@@ -1,6 +1,7 @@
 import { create } from "@mui/material/styles/createTransitions";
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
+import { i } from "vitest/dist/reporters-w_64AS5f.js";
 
 interface Category {
   id: string;
@@ -25,7 +26,7 @@ const category: Category = {
 export const initialState = [
   category,
   { ...category, id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6e', name: 'Vegetables' },
-  { ...category, id: '10b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6f', name: 'Meat' },
+  { ...category, id: '10b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6f', name: 'Meat', is_active: false },
   { ...category, id: '11b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6g', name: 'Fish' },
 ];
 
