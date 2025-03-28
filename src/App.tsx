@@ -20,7 +20,6 @@ const App = () => {
         }}>
         <Header />
         <Layout>
-          <h1>Welcome to router</h1>
           <Routes>
             <Route path="/" element={<CategoryList />} />
             <Route path="/categories" element={<CategoryList />} />
