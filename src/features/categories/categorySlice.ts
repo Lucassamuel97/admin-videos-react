@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { i } from "vitest/dist/reporters-w_64AS5f.js";
 
-interface Category {
+export interface Category {
   id: string;
   name: string;
   description: string | null;
