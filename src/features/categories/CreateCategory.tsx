@@ -1,41 +1,52 @@
 import { Box, Button, FormControl, FormControlLabel, FormGroup, Grid, Paper, Switch, TextField, Typography } from "@mui/material"
 import { useState } from "react";
-import { Category } from "./categorySlice";
+import { Category, createCategory } from "./categorySlice";
 import { Link } from "react-router-dom";
 import { CategoryForm } from "./components/CategoryForm";
+import { useAppDispatch } from "../../app/hooks";
 
 export const CategoryCreate = () => {
 
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [category, setCategory] = useState<Category>({
-    id: '',
-    name: '',
-    description: null,
+  const dispatch = useAppDispatch();
+  const [isdisabled, setIsdisabled] = useState(false);
+  const [categoryState, setCategoryState] = useState<Category>({
+    id: "",
+    name: "",
     is_active: false,
-    deleted_at: null,
-    created_at: '',
-    updated_at: '',
+    created_at: "",
+    updated_at: "",
+    deleted_at: "",
+    description: "",
   });
 
-  const handleChange = (e: any) => { };
-  const handleToggle = (e: any) => { };
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    dispatch(createCategory(categoryState));
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCategoryState({ ...categoryState, [name]: value });
+  };
+
+  const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setCategoryState({ ...categoryState, [name]: checked });
+  };
 
   return (
-    <Box>
+    <Box>""
       <Paper>
         <Box p={2}>
           <Box mb={2}>
             <Typography variant="h4">Create Category</Typography>
           </Box>
-          
+
           <CategoryForm
-            category={category}
-            isDisabled={isDisabled}
+            category={categoryState}
+            isDisabled={isdisabled}
             isLoading={false}
-            onSubmit={(e) => {
-              e.preventDefault();
-              // handle submit
-            }}
+            handleSubmit={handleSubmit}
             handleChange={handleChange}
             handleToggle={handleToggle}
           />

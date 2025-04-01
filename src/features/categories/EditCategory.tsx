@@ -1,18 +1,46 @@
 import { Box, Paper, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useAppSelector } from "../../app/hooks";
-import { selectCategoryById } from "./categorySlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { Category, selectCategoryById, updateCategory } from "./categorySlice";
 import { CategoryForm } from "./components/CategoryForm";
 
 export const CategoryEdit = () => {
 
-  const id = useParams().id || "";
+  const id = useParams().id as string; 
   const [isDisabled, setIsDisabled] = useState(false);
   const category = useAppSelector((state) => selectCategoryById(state, id));
+  const dispatch = useAppDispatch();
+  const [categoryState, setCategoryState] = useState<Category>({
+    id: "",
+    name: "",
+    is_active: false,
+    created_at: "",
+    updated_at: "",
+    deleted_at: "",
+    description: "",
+  });
+  
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    dispatch(updateCategory(categoryState));
+  }
 
-  const handleChange = (e: any) => { };
-  const handleToggle = (e: any) => { };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCategoryState({ ...categoryState, [name]: value });
+  };
+
+  const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = e.target;
+    setCategoryState({ ...categoryState, [name]: checked });
+  };
+
+  useEffect(() => {
+    if (category) {
+      setCategoryState(category);
+    }
+  }, [category]);
 
   return (
     <Box>
@@ -22,12 +50,10 @@ export const CategoryEdit = () => {
             <Typography variant="h4">Edit Category</Typography>
           </Box>
           <CategoryForm
-            category={category}
+            isLoading={false}
+            category={categoryState}
             isDisabled={isDisabled}
-            onSubmit={(e) => {
-              e.preventDefault();
-              // handle submit
-            }}
+            handleSubmit={handleSubmit}
             handleChange={handleChange}
             handleToggle={handleToggle}
           />
