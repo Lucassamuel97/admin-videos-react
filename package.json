@@ -22,6 +22,7 @@
     "@mui/material": "^6.4.8",
     "@mui/x-data-grid": "^7.28.1",
     "@reduxjs/toolkit": "^2.0.1",
+    "notistack": "^3.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^9.1.0",

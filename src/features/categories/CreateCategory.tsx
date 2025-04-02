@@ -1,4 +1,5 @@
 import { Box, Button, FormControl, FormControlLabel, FormGroup, Grid, Paper, Switch, TextField, Typography } from "@mui/material"
+import { useSnackbar } from "notistack";
 import { useState } from "react";
 import { Category, createCategory } from "./categorySlice";
 import { Link } from "react-router-dom";
@@ -18,10 +19,14 @@ export const CategoryCreate = () => {
     deleted_at: "",
     description: "",
   });
+  const { enqueueSnackbar } = useSnackbar();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     dispatch(createCategory(categoryState));
+    enqueueSnackbar("Category created successfully", {
+      variant: "success"
+    });
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

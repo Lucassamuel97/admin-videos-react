@@ -7,11 +7,14 @@ import { Routes, Route, Link } from "react-router-dom";
 import { CategoryList } from "./features/categories/ListCategory";
 import { CategoryCreate } from "./features/categories/CreateCategory";
 import { CategoryEdit } from "./features/categories/EditCategory";
+import { SnackbarProvider } from 'notistack'
+
 
 
 const App = () => {
   return (
     <ThemeProvider theme={appTheme}>
+      <SnackbarProvider maxSnack={3} autoHideDuration={2000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
       <Box
       component="main"
       sx={{
@@ -37,6 +40,7 @@ const App = () => {
           </Routes>
         </Layout>
       </Box>
+      </SnackbarProvider>
     </ThemeProvider>
   );
 }

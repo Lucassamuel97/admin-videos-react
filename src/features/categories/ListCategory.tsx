@@ -1,4 +1,5 @@
 import { Box, Button, debounce, IconButton, Typography } from "@mui/material"
+import { useSnackbar } from "notistack";
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { deleteCategory, selectCategories } from "./categorySlice";
 import { Link } from "react-router-dom";
@@ -9,6 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 export const CategoryList = () => {
     const categories = useAppSelector(selectCategories);
     const dispatch = useAppDispatch();
+    const { enqueueSnackbar } = useSnackbar();
 
     const componentProps = {
         toolbar: {
@@ -94,6 +96,9 @@ export const CategoryList = () => {
 
     function handleDeleteCategory(id: string) {
         dispatch(deleteCategory(id));
+        enqueueSnackbar("Category deleted successfully", {
+            variant: "warning",
+        });
     }
 
     return (
