@@ -1,14 +1,16 @@
 import { Box, Button, debounce, IconButton, Typography } from "@mui/material"
 import { useSnackbar } from "notistack";
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import { deleteCategory, selectCategories } from "./categorySlice";
+import { deleteCategory, selectCategories, useDeleteCategoryMutation, useGetCategoriesQuery } from "./categorySlice";
 import { Link } from "react-router-dom";
 import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp, GridToolbar } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useEffect } from "react";
 
 
 export const CategoryList = () => {
-    const categories = useAppSelector(selectCategories);
+    const {data, isFetching, error} = useGetCategoriesQuery();
+    const [deleteCategory, deleteCategoryStatus] = useDeleteCategoryMutation();
     const dispatch = useAppDispatch();
     const { enqueueSnackbar } = useSnackbar();
 
@@ -22,13 +24,13 @@ export const CategoryList = () => {
     };
 
     // use categories from the store
-    const rows: GridRowsProp = categories.map((category) => ({
+    const rows: GridRowsProp = data ? data.data.map((category) => ({
         id: category.id,
         name: category.name,
         description: category.description,
         isActive: category.is_active,
         created_at: new Date(category.created_at).toLocaleDateString("pt-BR"),
-    }));
+    })) : [];
 
     const columns: GridColDef[] = [
         {
@@ -94,12 +96,22 @@ export const CategoryList = () => {
         );
       }
 
-    function handleDeleteCategory(id: string) {
-        dispatch(deleteCategory(id));
-        enqueueSnackbar("Category deleted successfully", {
-            variant: "warning",
-        });
+    async function handleDeleteCategory(id: string) {
+        await deleteCategory({id}); 
     }
+
+    useEffect(() => {
+        if (deleteCategoryStatus.isSuccess) {
+            enqueueSnackbar("Category deleted successfully", {
+                variant: "warning",
+            });
+        }
+        if (deleteCategoryStatus.isError) {
+            enqueueSnackbar("Error deleting category", {
+                variant: "error",
+            });
+        }
+    }, [deleteCategoryStatus, enqueueSnackbar]);
 
     return (
         <Box maxWidth="lg" sx={{ mt: 4, mb: 4 }}>

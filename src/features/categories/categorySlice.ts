@@ -2,6 +2,8 @@ import { create } from "@mui/material/styles/createTransitions";
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { i } from "vitest/dist/reporters-w_64AS5f.js";
+import { apiSlice } from "../api/apiSlice";
+import { Result, Results } from "../../types/Category";
 
 export interface Category {
   id: string;
@@ -12,6 +14,28 @@ export interface Category {
   created_at: string;
   updated_at: string;
 }
+
+const endpointUrl = "/categories";
+
+function deleteCategoryMutation(category: Category) {
+  return {
+    url: `${endpointUrl}/${category.id}`,
+    method: "DELETE",
+  };
+}
+
+export const categoriesApiSlice = apiSlice.injectEndpoints({
+  endpoints: ({ query, mutation }) => ({
+    getCategories: query<Results, void>({
+      query: () => `${endpointUrl}`,
+      providesTags: ["Categories"],
+    }),
+    deleteCategory: mutation<Result, { id: string }>({
+      query: deleteCategoryMutation,
+      invalidatesTags: ["Categories"],
+    }),
+  }),
+});
 
 const category: Category = {
   id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
@@ -56,21 +80,16 @@ export const categorySlice = createSlice({
 
 // Selectors
 export const selectCategories = (state: RootState) => state.categories;
+export const selectCategoryById = (state: RootState, id: string) =>
+  state.categories.find((category) => category.id === id) ?? null;
 
-// Select category by id
-export const selectCategoryById = (state: RootState, id: string) => {
-  const category = state.categories.find((category) => category.id === id);
-
-  return category || {
-    id: '',
-    name: '',
-    description: null,
-    is_active: false,
-    deleted_at: null,
-    created_at: '',
-    updated_at: '',
-  };
-}
+export const { createCategory, updateCategory, deleteCategory } =
+  categorySlice.actions;
 
 export default categorySlice.reducer;
-export const { createCategory, updateCategory, deleteCategory } = categorySlice.actions;
+
+
+export const {
+   useGetCategoriesQuery,
+    useDeleteCategoryMutation,
+  } = categoriesApiSlice;
