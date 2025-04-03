@@ -1,11 +1,11 @@
-import { Box, Button, debounce, IconButton, Typography } from "@mui/material"
-import { useSnackbar } from "notistack";
-import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import { deleteCategory, selectCategories, useDeleteCategoryMutation, useGetCategoriesQuery } from "./categorySlice";
-import { Link } from "react-router-dom";
-import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp, GridToolbar } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Box, Button, IconButton, Typography } from "@mui/material";
+import { DataGrid, GridColDef, GridRenderCellParams, GridRowsProp, GridToolbar } from '@mui/x-data-grid';
+import { useSnackbar } from "notistack";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useAppDispatch } from "../../app/hooks";
+import { useDeleteCategoryMutation, useGetCategoriesQuery } from "./categorySlice";
 
 
 export const CategoryList = () => {
