@@ -16,7 +16,7 @@ type Props = {
   perPage: number;
   isFetching: boolean;
   rowsPerPage?: number[];
-
+  page: number;
   handleOnPageChange: (page: number) => void;
   handleFilterChange: (filterModel: GridFilterModel) => void;
   handleOnPageSizeChange: (perPage: number) => void;
@@ -27,40 +27,18 @@ export function CategoriesTable({
   data,
   perPage,
   isFetching,
-  rowsPerPage = [10, 20, 30],
+  rowsPerPage,
+  page,
   handleOnPageChange,
   handleFilterChange,
   handleOnPageSizeChange,
   handleDelete,
 }: Props) {
-  // MUI usa page baseado em zero, então subtraímos 1 aqui
-  const [paginationModel, setPaginationModel] = useState({
-    page: (data?.meta.current_page || 1) - 1,
-    pageSize: perPage,
-  });
 
-  useEffect(() => {
-    if (data?.meta.current_page !== undefined) {
-      setPaginationModel((prev) => ({
-        ...prev,
-        page: data.meta.current_page - 1, // Backend envia 1-based, DataGrid usa 0-based
-      }));
-    }
-  }, [data?.meta.current_page]);
-  
-
-  const handlePaginationModelChange = (model: { page: number; pageSize: number }) => {
-    setPaginationModel(model);
-    handleOnPageChange(model.page); // já está em base 0
-    handleOnPageSizeChange(model.pageSize);
-  };
-
-  const slotProps = {
+  const componentProps = {
     toolbar: {
       showQuickFilter: true,
-      quickFilterProps: {
-        debounceMs: 500,
-      },
+      quickFilterProps: { debounceMs: 500 },
     },
   };
 
@@ -92,19 +70,11 @@ export function CategoriesTable({
     }));
   }
 
-  function renderIsActiveCell(rowData: GridRenderCellParams) {
-    return (
-      <Typography color={rowData.value ? "primary" : "secondary"}>
-        {rowData.value ? "Active" : "Inactive"}
-      </Typography>
-    );
-  }
-
   function renderActionsCell(params: GridRenderCellParams) {
     return (
       <IconButton
         color="secondary"
-        onClick={() => handleDelete(params.row.id)}
+        onClick={() => handleDelete(params.value)}
         aria-label="delete"
         data-testid="delete-button"
       >
@@ -124,31 +94,47 @@ export function CategoriesTable({
     );
   }
 
+  function renderIsActiveCell(rowData: GridRenderCellParams) {
+    return (
+      <Typography color={rowData.value ? "primary" : "secondary"}>
+        {rowData.value ? "Active" : "Inactive"}
+      </Typography>
+    );
+  }
+
   const rows = data ? mapDataToGridRows(data) : [];
   const rowCount = data?.meta.total || 0;
+  rowsPerPage = rowsPerPage || [10, 20, 30];
+
+
+
 
   return (
-    <Box sx={{ display: "flex", height: 600 }}>
+    <Box sx={{ display: "flex", height: 600, width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns}
         rowCount={rowCount}
         loading={isFetching}
         pagination
+        pageSizeOptions={rowsPerPage} // MUI 7 usa `pageSizeOptions`
         paginationMode="server"
         filterMode="server"
         checkboxSelection={false}
         disableColumnFilter
         disableColumnSelector
         disableDensitySelector
-        paginationModel={paginationModel}
-        onPaginationModelChange={handlePaginationModelChange}
-        onFilterModelChange={handleFilterChange}
-        slots={{
-          toolbar: GridToolbar,
+        paginationModel={{
+          page: page - 1, // Ajuste direto para base 0
+          pageSize: perPage,
         }}
-        slotProps={slotProps}
-        pageSizeOptions={rowsPerPage}
+        onPaginationModelChange={({ page, pageSize }) => {
+          handleOnPageChange(page + 1); // Converte para base 1
+          handleOnPageSizeChange(pageSize);
+        }}
+        onFilterModelChange={handleFilterChange}
+        slots={{ toolbar: GridToolbar }}
+        slotProps={componentProps}
       />
     </Box>
   );
