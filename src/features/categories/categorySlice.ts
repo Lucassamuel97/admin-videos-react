@@ -54,73 +54,47 @@ function createCategoryMutation(category: Category) {
   return { url: endpointUrl, method: "POST", body: category };
 }
 
+function updateCategoryMutation(category: Category) {
+  return {
+    url: `${endpointUrl}/${category.id}`,
+    method: "PUT",
+    body: category,
+  };
+}
+
+function getCategory({ id }: { id: string }) {
+  return `${endpointUrl}/${id}`;
+}
+
 export const categoriesApiSlice = apiSlice.injectEndpoints({
   endpoints: ({ query, mutation }) => ({
     getCategories: query<Results, CategoryParams>({
       query: getCategories,
       providesTags: ["Categories"],
     }),
-    deleteCategory: mutation<Result, { id: string }>({
-      query: deleteCategoryMutation,
-      invalidatesTags: ["Categories"],
+    getCategory: query<Result, { id: string }>({
+      query: getCategory,
+      providesTags: ["Categories"],
     }),
     createCategory: mutation<Result, Category>({
       query: createCategoryMutation,
       invalidatesTags: ["Categories"],
     }),
+    deleteCategory: mutation<Result, { id: string }>({
+      query: deleteCategoryMutation,
+      invalidatesTags: ["Categories"],
+    }),
+    updateCategory: mutation<Result, Category>({
+      query: updateCategoryMutation,
+      invalidatesTags: ["Categories"],
+    }),
   }),
 });
-
-const category: Category = {
-  id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
-  name: 'Fruits',
-  description: 'Fruits are the sweet and fleshy product of a tree or other plant that contains seed and can be eaten as food.',
-  is_active: true,
-  deleted_at: null,
-  created_at: '2025-09-15T00:00:00.000000Z',
-  updated_at: '2025-09-15T00:00:00.000000Z',
-};
-
-export const initialState = [
-  category,
-  { ...category, id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6e', name: 'Vegetables' },
-  { ...category, id: '10b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6f', name: 'Meat', is_active: false },
-  { ...category, id: '11b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6g', name: 'Fish' },
-];
-
-export const categorySlice = createSlice({
-  name: 'categories',
-  initialState,
-  reducers: {
-    createCategory: (state, action) => { 
-      state.push(action.payload);
-    },
-    updateCategory: (state, action) => { 
-      const index = state.findIndex(
-        (category) => category.id === action.payload.id
-      );
-      state[index] = action.payload;
-    },
-    deleteCategory: (state, action) => { 
-      const index = state.findIndex(
-        (category) => category.id === action.payload.id
-      );
-      state.splice(index, 1);
-    },
-  },
-});
-
-export const selectCategories = (state: RootState) => state.categories;
-export const selectCategoryById = (state: RootState, id: string) =>
-  state.categories.find((category) => category.id === id) ?? null;
-
-export const { createCategory, updateCategory, deleteCategory } =
-  categorySlice.actions;
-
-export default categorySlice.reducer;
 
 export const {
   useGetCategoriesQuery,
   useDeleteCategoryMutation,
   useCreateCategoryMutation,
+  useUpdateCategoryMutation,
+  useGetCategoryQuery,
 } = categoriesApiSlice;
