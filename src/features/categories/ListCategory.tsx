@@ -53,9 +53,6 @@ export const CategoryList = () => {
         return <Typography>Error fetching categories</Typography>;
     }
 
-
-
-
     return (
         <Box maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Box display="flex" justifyContent="flex-end">

@@ -106,9 +106,6 @@ export function CategoriesTable({
   const rowCount = data?.meta.total || 0;
   rowsPerPage = rowsPerPage || [10, 20, 30];
 
-
-
-
   return (
     <Box sx={{ display: "flex", height: 600, width: '100%' }}>
       <DataGrid
