@@ -8,8 +8,7 @@ import { CategoryList } from "./features/categories/ListCategory";
 import { CategoryCreate } from "./features/categories/CreateCategory";
 import { CategoryEdit } from "./features/categories/EditCategory";
 import { SnackbarProvider } from 'notistack'
-
-
+import { CastMemberList } from "./features/cast/ListCastMember";
 
 const App = () => {
   return (
@@ -25,9 +24,14 @@ const App = () => {
         <Layout>
           <Routes>
             <Route path="/" element={<CategoryList />} />
+
+            {/* category */}
             <Route path="/categories" element={<CategoryList />} />
             <Route path="/categories/create" element={<CategoryCreate/>} />
             <Route path="/categories/edit/:id" element={<CategoryEdit/>} />
+
+            {/* CastMembers */}
+            <Route path="/cast-members" element={<CastMemberList />} />
 
             <Route path="*" element={
               <Box>
