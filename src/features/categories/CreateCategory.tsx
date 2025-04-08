@@ -1,10 +1,8 @@
-import { Box, Button, FormControl, FormControlLabel, FormGroup, Grid, Paper, Switch, TextField, Typography } from "@mui/material"
+import { Box, Paper, Typography } from "@mui/material";
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
-import { Category, createCategory, useCreateCategoryMutation } from "./categorySlice";
-import { Link } from "react-router-dom";
+import { Category, useCreateCategoryMutation } from "./categorySlice";
 import { CategoryForm } from "./components/CategoryForm";
-import { useAppDispatch } from "../../app/hooks";
 
 export const CategoryCreate = () => {
   const [createCategory, status] = useCreateCategoryMutation();

@@ -1,11 +1,10 @@
-import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, Typography } from "@mui/material";
+import { GridFilterModel } from '@mui/x-data-grid';
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDeleteCategoryMutation, useGetCategoriesQuery } from "./categorySlice";
 import { CategoriesTable } from './components/CategoryTable';
-import { GridFilterModel } from '@mui/x-data-grid';
 
 export const CategoryList = () => {
     const { enqueueSnackbar } = useSnackbar();

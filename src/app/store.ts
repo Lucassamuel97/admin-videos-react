@@ -2,14 +2,13 @@ import type { Action, ThunkAction } from "@reduxjs/toolkit"
 import { combineReducers, combineSlices, configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
 import { apiSlice } from "../features/api/apiSlice"
-import { categoriesApiSlice, categorySlice } from "../features/categories/categorySlice";
+import { categoriesApiSlice } from "../features/categories/categorySlice";
 
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
 const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
-  categories: categorySlice.reducer
 })
 
 
