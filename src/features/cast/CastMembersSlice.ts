@@ -51,15 +51,27 @@ function getCastMembers(params: CastMemberParams) {
     })}`;
 }
 
+function deleteCastMember({ id }: { id: string }) {
+    return {
+        method: "DELETE",
+        url: `${endpointUrl}/${id}`,
+    };
+}
+
 export const castMembersApiSlice = apiSlice.injectEndpoints({
     endpoints: ({ query, mutation }) => ({
         getcastMembers: query<Results, CastMemberParams>({
             query: getCastMembers,
             providesTags: ["CastMembers"],
         }),
+        deleteCastMember: mutation<Result, { id: string }>({
+            query: deleteCastMember,
+            invalidatesTags: ["CastMembers"],
+        }),
     }),
 });
 
 export const {
     useGetcastMembersQuery,
+    useDeleteCastMemberMutation,
 } = castMembersApiSlice;
