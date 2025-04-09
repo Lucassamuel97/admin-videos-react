@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import { useDeleteCastMemberMutation, useGetcastMembersQuery } from "./CastMembersSlice";
 import { GridFilterModel } from "@mui/x-data-grid";
 import { enqueueSnackbar } from "notistack";
+import { CastMemberTable } from "./components/CastMemberTable";
 
 export const CastMemberList = () => {
 
@@ -23,11 +24,11 @@ export const CastMemberList = () => {
     }
 
     function handleOnPageChange(page: number) {
-        setOptions({ ...options, page: page + 1 });
+        setOptions(prev => ({ ...prev, page }));
     }
 
     function handleOnPageSizeChange(perPage: number) {
-        setOptions({ ...options, perPage });
+        setOptions(prev => ({ ...prev, perPage }));
     }
 
     function handleFilterChange(filterModel: GridFilterModel) {
@@ -65,6 +66,18 @@ export const CastMemberList = () => {
                     New Cast Member
                 </Button>
             </Box>
+
+            <CastMemberTable
+                data={data}// ← ajustando de volta para base 0
+                perPage={options.perPage}
+                rowsPerPage={options.rowsPerPage}
+                isFetching={isFetching}
+                page={options.page}
+                handleOnPageChange={handleOnPageChange}
+                handleFilterChange={handleFilterChange}
+                handleOnPageSizeChange={handleOnPageSizeChange}
+                handleDelete={handleDeleteCastMember}
+            />
         </Box>
     );
 }
