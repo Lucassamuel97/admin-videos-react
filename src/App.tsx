@@ -8,7 +8,8 @@ import { CategoryList } from "./features/categories/ListCategory";
 import { CategoryCreate } from "./features/categories/CreateCategory";
 import { CategoryEdit } from "./features/categories/EditCategory";
 import { SnackbarProvider } from 'notistack'
-import { CastMemberList } from "./features/cast/ListCastMember";
+import { CastMemberList } from "./features/cast/ListCastMembers";
+import { CreateCastMember } from "./features/cast/CreateCastMembers";
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
 
             {/* CastMembers */}
             <Route path="/cast-members" element={<CastMemberList />} />
+            <Route path="/cast-members/create" element={<CreateCastMember/>} />
 
             <Route path="*" element={
               <Box>
