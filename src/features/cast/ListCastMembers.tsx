@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import { useDeleteCastMemberMutation, useGetcastMembersQuery } from "./CastMembersSlice";
 import { GridFilterModel } from "@mui/x-data-grid";
 import { enqueueSnackbar } from "notistack";
-import { CastMemberTable } from "./components/CastMemberTable";
+import { CastMemberTable } from "./components/CastMembersTable";
 
 export const CastMemberList = () => {
 
