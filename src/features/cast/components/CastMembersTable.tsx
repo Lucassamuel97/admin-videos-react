@@ -23,7 +23,7 @@ type Props = {
   handleDelete: (id: string) => void;
 };
 
-export function CastMemberTable({
+export function CastMembersTable({
   data,
   perPage,
   isFetching,

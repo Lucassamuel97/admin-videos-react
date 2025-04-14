@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import { useDeleteCastMemberMutation, useGetcastMembersQuery } from "./CastMembersSlice";
 import { GridFilterModel } from "@mui/x-data-grid";
 import { enqueueSnackbar } from "notistack";
-import { CastMemberTable } from "./components/CastMembersTable";
+import { CastMembersTable } from "./components/CastMembersTable";
 
 export const CastMemberList = () => {
 
@@ -67,7 +67,7 @@ export const CastMemberList = () => {
                 </Button>
             </Box>
 
-            <CastMemberTable
+            <CastMembersTable
                 data={data}// ← ajustando de volta para base 0
                 perPage={options.perPage}
                 rowsPerPage={options.rowsPerPage}
