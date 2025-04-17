@@ -7,11 +7,12 @@ import { baseUrl } from "../api/apiSlice";
 import { categoryResponse , categoryResponsePage2} from "../mocks";
 
 export const handlers = [
-  http.get(`${baseUrl}/categories`,  (request) => {
+  http.get(`${baseUrl}/categories`, async (request) => {
     const page = new URL(request.request.url).searchParams.get("page");
     if (page === "2") {
       return HttpResponse.json(categoryResponsePage2);
     }
+    await new Promise(resolve => setTimeout(resolve, 200));
     return HttpResponse.json(categoryResponse);
   })
 ];
@@ -74,6 +75,27 @@ describe("CategoryList", () => {
     await waitFor(() => {
       const name = screen.getByText("SeaGreen");
       expect(name).toBeInTheDocument();
+    });
+  });
+
+  it("should handle filter change", async () => {
+    renderWithProviders(<CategoryList />);
+    // esperar que o elemento seja renderizado
+    await waitFor(() => {
+      const name = screen.getByText("PaleTurquoise");
+      expect(name).toBeInTheDocument();
+    });
+    // pegar o input com o placeholder "Search..."
+    const input = screen.getByPlaceholderText("Search…");
+
+    // Fire event on change
+    fireEvent.change(input, { target: { value: "PapayaWhip" } });
+
+    await waitFor(() => {
+      screen.debug(); // Mostra o DOM no terminal
+      const loading = screen.getByRole("progressbar");
+      expect(loading).toBeInTheDocument();
+      expect(input).toHaveValue("PapayaWhip");
     });
   });
 
