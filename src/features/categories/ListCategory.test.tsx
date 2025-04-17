@@ -1,18 +1,20 @@
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 
-import { renderWithProviders, screen, waitFor} from "../../utils/test-utils";
+import { renderWithProviders, screen, waitFor, fireEvent} from "../../utils/test-utils";
 import { CategoryList } from "./ListCategory";
 import { baseUrl } from "../api/apiSlice";
-import { categoryResponse } from "../mocks";
+import { categoryResponse , categoryResponsePage2} from "../mocks";
 
 export const handlers = [
-  http.get(`${baseUrl}/categories`, async () => {
-    await new Promise(resolve => setTimeout(resolve, 150));
+  http.get(`${baseUrl}/categories`,  (request) => {
+    const page = new URL(request.request.url).searchParams.get("page");
+    if (page === "2") {
+      return HttpResponse.json(categoryResponsePage2);
+    }
     return HttpResponse.json(categoryResponse);
   })
 ];
-
 const server = setupServer(...handlers);
 
 describe("CategoryList", () => {
@@ -55,6 +57,23 @@ describe("CategoryList", () => {
     await waitFor(() => {
       const error = screen.getByText("Error fetching categories");
       expect(error).toBeInTheDocument();
+    });
+  });
+
+  it("should handle On PageChange", async () => {
+    renderWithProviders(<CategoryList />);
+
+    await waitFor(() => {
+      const name = screen.getByText("PaleTurquoise");
+      expect(name).toBeInTheDocument();
+    });
+
+    const nextButton = screen.getByTestId("KeyboardArrowRightIcon");
+    fireEvent.click(nextButton);
+
+    await waitFor(() => {
+      const name = screen.getByText("SeaGreen");
+      expect(name).toBeInTheDocument();
     });
   });
 

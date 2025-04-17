@@ -35,3 +35,32 @@ export const categoryResponse = {
       total: 95,
     }
 };
+
+export const categoryResponsePage2 = {
+  data: [
+    {
+      id: "cbdd550c-ad46-4e50-be8d-a8266aff4163",
+      name: "SeaGreen",
+      description: "Explicabo nemo voluptate aut nostrum impedit minus.",
+      is_active: true,
+      deleted_at: null,
+      created_at: "2022-09-27T17:10:33+0000",
+      updated_at: "2022-09-27T17:10:33+0000",
+    },
+  ],
+  links: {
+    first: "http://localhost:8000/api/categories?page=1",
+    last: "http://localhost:8000/api/categories?page=7",
+    prev: "http://localhost:8000/api/categories?page=1",
+    next: "http://localhost:8000/api/categories?page=3",
+  },
+  meta: {
+    current_page: 2,
+    from: 1,
+    last_page: 7,
+    path: "http://localhost:8000/api/categories",
+    per_page: 15,
+    to: 15,
+    total: 95,
+  },
+};
