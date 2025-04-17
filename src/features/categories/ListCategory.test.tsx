@@ -1,15 +1,15 @@
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 
-import { renderWithProviders, screen} from "../../utils/test-utils";
+import { renderWithProviders, screen, waitFor} from "../../utils/test-utils";
 import { CategoryList } from "./ListCategory";
 import { baseUrl } from "../api/apiSlice";
 import { categoryResponse } from "../mocks";
 
 export const handlers = [
-  http.get("/alguma-coisa", async () => {
+  http.get(`${baseUrl}/categories`, async () => {
     await new Promise(resolve => setTimeout(resolve, 150));
-    return HttpResponse.json({ /* ... */ });
+    return HttpResponse.json(categoryResponse);
   })
 ];
 
@@ -29,6 +29,33 @@ describe("CategoryList", () => {
     renderWithProviders(<CategoryList />);
     const loading = screen.getByRole("progressbar");
     expect(loading).toBeInTheDocument();
+  });
+
+  it("should render success state", async () => {
+    renderWithProviders(<CategoryList />);
+    // esperar que o elemento seja renderizado
+    await waitFor(() => {
+      const name = screen.getByText(categoryResponse.data[0].name);
+      expect(name).toBeInTheDocument();
+    });
+  });
+
+  it("should render error state", async () => {
+    server.use(
+      http.get(`${baseUrl}/categories`, async () => {
+        return HttpResponse.json(
+          { error: "Algo deu errado!" },  // Corpo da resposta
+          { status: 500 }  // Status HTTP 500
+        );
+      })  
+    );
+
+    renderWithProviders(<CategoryList />);
+
+    await waitFor(() => {
+      const error = screen.getByText("Error fetching categories");
+      expect(error).toBeInTheDocument();
+    });
   });
 
 });
