@@ -1,10 +1,10 @@
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
 
-import { renderWithProviders, screen, waitFor, fireEvent} from "../../utils/test-utils";
+import { renderWithProviders, screen, waitFor, fireEvent } from "../../utils/test-utils";
 import { CategoryList } from "./ListCategory";
 import { baseUrl } from "../api/apiSlice";
-import { categoryResponse , categoryResponsePage2} from "../mocks";
+import { categoryResponse, categoryResponsePage2 } from "../mocks";
 
 export const handlers = [
   http.get(`${baseUrl}/categories`, async (request) => {
@@ -14,8 +14,15 @@ export const handlers = [
     }
     await new Promise(resolve => setTimeout(resolve, 200));
     return HttpResponse.json(categoryResponse);
-  })
+  }),
+
+  http.delete(`${baseUrl}/categories/${categoryResponse.data[0].id}`, async (request) => {
+    const { id } = request.params;
+    await new Promise(resolve => setTimeout(resolve, 200));
+    return HttpResponse.json({ message: `Category ${id} deleted` });
+  }),
 ];
+
 const server = setupServer(...handlers);
 
 describe("CategoryList", () => {
@@ -50,7 +57,7 @@ describe("CategoryList", () => {
           { error: "Algo deu errado!" },  // Corpo da resposta
           { status: 500 }  // Status HTTP 500
         );
-      })  
+      })
     );
 
     renderWithProviders(<CategoryList />);
@@ -98,5 +105,50 @@ describe("CategoryList", () => {
       expect(input).toHaveValue("PapayaWhip");
     });
   });
+
+  it("should handle Delete Category success", async () => {
+    renderWithProviders(<CategoryList />);
+
+    await waitFor(() => {
+      const name = screen.getByText("PaleTurquoise");
+      expect(name).toBeInTheDocument();
+    });
+
+    const deleteButton = screen.getAllByTestId("delete-button")[0];
+    fireEvent.click(deleteButton);
+
+    await waitFor(() => {
+      const name = screen.getByText("Category deleted");
+      expect(name).toBeInTheDocument();
+    });
+  });
+
+  it("should handle Delete Category error", async () => {
+    server.use(
+      http.delete(`${baseUrl}/categories/${categoryResponse.data[0].id}`, async () => {
+        return HttpResponse.json(
+          { error: "Algo deu errado!" },  // Corpo da resposta
+          { status: 500 }  // Status HTTP 500
+        );
+      })
+    );
+
+    renderWithProviders(<CategoryList />);
+
+    await waitFor(() => {
+      const name = screen.getByText("PaleTurquoise");
+      expect(name).toBeInTheDocument();
+    });
+
+    const deleteButton = screen.getAllByTestId("delete-button")[0];
+    fireEvent.click(deleteButton);
+
+    await waitFor(() => {
+      const name = screen.getByText("Category not deleted");
+      expect(name).toBeInTheDocument();
+    });
+  });
+
+  
 
 });
