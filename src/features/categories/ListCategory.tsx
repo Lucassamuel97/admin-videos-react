@@ -18,13 +18,13 @@ export const CategoryList = () => {
     const [deleteCategory, { error: deleteError, isSuccess: deleteSuccess }] =
         useDeleteCategoryMutation();
 
-        function handleOnPageChange(page: number) {
-            setOptions(prev => ({ ...prev, page }));
-          }
-          
-          function handleOnPageSizeChange(perPage: number) {
-            setOptions(prev => ({ ...prev, perPage }));
-          }
+    function handleOnPageChange(page: number) {
+        setOptions(prev => ({ ...prev, page }));
+    }
+
+    function handleOnPageSizeChange(perPage: number) {
+        setOptions(prev => ({ ...prev, perPage }));
+    }
 
     function handleFilterChange(filterModel: GridFilterModel) {
         if (!filterModel.quickFilterValues?.length) {
