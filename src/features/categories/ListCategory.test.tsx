@@ -4,7 +4,7 @@ import { setupServer } from "msw/node";
 import { renderWithProviders, screen, waitFor, fireEvent } from "../../utils/test-utils";
 import { CategoryList } from "./ListCategory";
 import { baseUrl } from "../api/apiSlice";
-import { categoryResponse, categoryResponsePage2 } from "../mocks";
+import { categoryResponse, categoryResponsePage2 } from "../mocks/categoryMock";
 
 export const handlers = [
   http.get(`${baseUrl}/categories`, async (request) => {
