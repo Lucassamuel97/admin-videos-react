@@ -1,14 +1,5 @@
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
-
-vi.mock("react-router-dom", async () => {
-    const actual = await vi.importActual("react-router-dom");
-    return {
-      ...actual,
-      useParams: () => ({ id: "1" }), // o ID que seu componente espera
-    };
-});
-
 import { renderWithProviders, screen, waitFor, fireEvent } from "../../utils/test-utils";
 import { CategoryEdit } from "./EditCategory";
 import { baseUrl } from "../api/apiSlice";
