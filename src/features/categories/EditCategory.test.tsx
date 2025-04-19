@@ -71,4 +71,31 @@ describe("EditCategory", () => {
         });
     
     });
+
+    it("should handle error", async () => {
+        server.use(
+            http.put(`${baseUrl}/categories/${data.id}`, async () => {
+                return HttpResponse.json(
+                    { error: "Algo deu errado!" },  // Corpo da resposta
+                    { status: 500 }  // Status HTTP 500
+                );
+            })
+        );
+
+        renderWithProviders(<CategoryEdit />);
+        const name = await screen.findByTestId("name");
+        const description = screen.getByTestId("description");
+        const isActive = screen.getByTestId("is_active");
+        const submit = screen.getByText("Save");
+
+        fireEvent.change(name, { target: { value: "test" } });
+        fireEvent.change(description, { target: { value: "test desc" } });
+        fireEvent.click(isActive);
+        fireEvent.click(submit);
+
+        await waitFor(() => {
+            const text = screen.getByText("Category not updated");
+            expect(text).toBeInTheDocument();
+        });
+    });
 });
