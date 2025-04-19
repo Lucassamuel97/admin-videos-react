@@ -38,6 +38,7 @@ exports[`CategoryForm > should render CategoryForm with loading 1`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+                  data-testid="name"
                   disabled=""
                   id="name"
                   name="name"
@@ -90,6 +91,7 @@ exports[`CategoryForm > should render CategoryForm with loading 1`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+                  data-testid="description"
                   disabled=""
                   id="description"
                   name="description"
@@ -174,7 +176,7 @@ exports[`CategoryForm > should render CategoryForm with loading 1`] = `
               tabindex="-1"
               type="submit"
             >
-              Save
+              Loading...
             </button>
           </div>
         </div>
@@ -222,6 +224,7 @@ exports[`CategoryForm > should render correctly 1`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+                  data-testid="name"
                   id="name"
                   name="name"
                   required=""
@@ -273,6 +276,7 @@ exports[`CategoryForm > should render correctly 1`] = `
                 <input
                   aria-invalid="false"
                   class="MuiInputBase-input MuiOutlinedInput-input css-16wblaj-MuiInputBase-input-MuiOutlinedInput-input"
+                  data-testid="description"
                   id="description"
                   name="description"
                   required=""
