@@ -2,9 +2,47 @@ import { useEffect, useState } from "react";
 import { useSnackbar } from "notistack";
 import { Box } from "@mui/system";
 import { Paper, Typography } from "@mui/material";
-import { GenreForm } from "./components/GenreFomr";
+import { GenreForm } from "./components/GenreForm";
+import {
+  initialState as genreInintalState,
+  useCreateGenreMutation,
+  useGetCaTegoriesQuery,
+} from "./genreSlice";
+
+import { Genre } from "../../types/Genres";
 
 export const GenreCreate = () => {
+
+  const { enqueueSnackbar } = useSnackbar();
+  const { data: categories } = useGetCaTegoriesQuery();
+  const [createGenre, status] = useCreateGenreMutation();
+  const [genreState, setGenreState] = useState<Genre>(genreInintalState);
+
+
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = e.target;
+    setGenreState({ ...genreState, [name]: value });
+  }
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    await createGenre({
+      id: genreState.id,
+      name: genreState.name,
+      categories_id: genreState.categories?.map((category) => category.id),
+    });
+  }
+
+  useEffect(() => {
+    if (status.isSuccess) {
+      enqueueSnackbar(`Genre created`, { variant: "success" });
+    }
+    if (status.isError) {
+      enqueueSnackbar(`Genre not created`, { variant: "error" });
+    }
+  }, [status, enqueueSnackbar]);
+
+
   return (
     <Box>
       <Paper>
@@ -15,12 +53,12 @@ export const GenreCreate = () => {
         </Box>
 
         <GenreForm
-          genre={{}}
-          categories={[ { id: '1', name: "Action" , description: 'teste', deleted_at: 'null', is_active: true, created_at: 'null', updated_at: 'null' },]}  
-          isLoading={false}
-          isDisabled={false}
-          handleSubmit={(e) => {e.preventDefault();}}
-          handleChange={(e) => {e.preventDefault();}}
+          genre={genreState}
+          categories={categories?.data}
+          isLoading={status.isLoading}
+          isDisabled={status.isLoading}
+          handleSubmit={handleSubmit}
+          handleChange={handleChange}
         />
       </Paper>
     </Box>

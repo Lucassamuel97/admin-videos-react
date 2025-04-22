@@ -2,7 +2,6 @@ import type { Action, ThunkAction } from "@reduxjs/toolkit"
 import { combineReducers, combineSlices, configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
 import { apiSlice } from "../features/api/apiSlice"
-import { categoriesApiSlice } from "../features/categories/categorySlice";
 
 
 // `combineSlices` automatically combines the reducers using
