@@ -10,6 +10,7 @@ import {
 } from "./genreSlice";
 
 import { Genre } from "../../types/Genres";
+import { mapGenreToForm } from "./util";
 
 export const GenreCreate = () => {
 
@@ -26,11 +27,7 @@ export const GenreCreate = () => {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    await createGenre({
-      id: genreState.id,
-      name: genreState.name,
-      categories_id: genreState.categories?.map((category) => category.id),
-    });
+    await createGenre(mapGenreToForm(genreState));
   }
 
   useEffect(() => {
