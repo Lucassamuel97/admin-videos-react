@@ -47,6 +47,11 @@ function parseQueryParams(params: GenreParams) {
     return query.toString();
 }
 
+function getGenres({ page = 1, perPage = 10, search = "" }) {
+    const params = { page, perPage, search };
+    return `${endpointUrl}?${parseQueryParams(params)}`;
+}
+
 function createGenreMutation(genre: GenrePayload) {
     return { url: endpointUrl, method: "POST", body: genre };
 }
@@ -77,6 +82,10 @@ export const genreSlice = apiSlice.injectEndpoints({
             query: createGenreMutation,
             invalidatesTags: ["Genres"],
         }),
+        getGenres: query<Genres, GenreParams>({
+            query: getGenres,
+            providesTags: ["Genres"],
+        }),
     }),
 });
 
@@ -85,4 +94,5 @@ export const {
     useGetCaTegoriesQuery,
     useGetGenreQuery,
     useUpdateGenreMutation,
+    useGetGenresQuery,
 } = genreSlice;
