@@ -64,7 +64,10 @@ function updateGenreMutation(genre: GenrePayload) {
     return { url: `${endpointUrl}/${genre.id}`, method: "PUT", body: genre };
 }
 
-
+function deleteGenreMutation({ id }: { id: string }) {
+    return { url: `${endpointUrl}/${id}`, method: "DELETE" };
+}
+  
 export const genreSlice = apiSlice.injectEndpoints({
     endpoints: ({ query, mutation }) => ({
         getCaTegories: query<Results, void>({
@@ -86,6 +89,10 @@ export const genreSlice = apiSlice.injectEndpoints({
             query: getGenres,
             providesTags: ["Genres"],
         }),
+        deleteGenre: mutation<Genre, { id: string }>({
+            query: deleteGenreMutation,
+            invalidatesTags: ["Genres"],
+        }),
     }),
 });
 
@@ -95,4 +102,5 @@ export const {
     useGetGenreQuery,
     useUpdateGenreMutation,
     useGetGenresQuery,
+    useDeleteGenreMutation,
 } = genreSlice;

@@ -4,7 +4,7 @@ import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { GenresTable } from "./components/GenresTable";
-import { useGetGenresQuery } from "./genreSlice";
+import { useDeleteGenreMutation, useGetGenresQuery } from "./genreSlice";
 
 export const GenreList = () => {
 
@@ -16,7 +16,8 @@ export const GenreList = () => {
         rowsPerPage: [10, 20, 30],
     });
     const { data, isFetching, error } = useGetGenresQuery(options);
-
+    const [deleteGenre, { error: deleteError, isSuccess: deleteSuccess }] =
+        useDeleteGenreMutation();
 
     function handleOnPageChange(page: number) {
         setOptions({ ...options, page: page + 1 });
@@ -33,6 +34,20 @@ export const GenreList = () => {
         const search = filterModel.quickFilterValues.join("");
         setOptions({ ...options, search });
     }
+
+    async function handleDeleteGenre(id: string) {
+        await deleteGenre({ id });
+    }
+
+    useEffect(() => {
+        if (deleteSuccess) {
+            enqueueSnackbar(`Genre deleted`, { variant: "success" });
+        }
+        if (deleteError) {
+            enqueueSnackbar(`Genre not deleted`, { variant: "error" });
+        }
+    }, [deleteSuccess, deleteError, enqueueSnackbar]);
+
 
     if (error) {
         return <Typography>Error fetching genres</Typography>;
@@ -60,14 +75,7 @@ export const GenreList = () => {
                 handleOnPageChange={handleOnPageChange}
                 handleFilterChange={handleFilterChange}
                 handleOnPageSizeChange={handleOnPageSizeChange}
-                handleDelete={e => {
-                    if (window.confirm("Are you sure you want to delete this genre?")) {
-                        enqueueSnackbar("Genre deleted", {
-                            variant: "success",
-                        });
-                    }
-                }
-                }
+                handleDelete={handleDeleteGenre}
             />
         </Box>
     );
