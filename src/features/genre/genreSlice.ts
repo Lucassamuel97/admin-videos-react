@@ -15,7 +15,7 @@ export const initialState = {
     created_at: "",
     updated_at: "",
     deleted_at: null,
-    isActive: false,
+    is_active: true,
     categories: [],
     description: "",
     pivot: { genre_id: "", category_id: "" },
