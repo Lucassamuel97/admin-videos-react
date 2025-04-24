@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { GenresTable } from "./components/GenresTable";
 import { useDeleteGenreMutation, useGetGenresQuery } from "./genreSlice";
+import { ConfirmDeleteDialog } from "./components/ConfirmDeleteDialog";
 
 export const GenreList = () => {
 
@@ -18,6 +19,9 @@ export const GenreList = () => {
     const { data, isFetching, error } = useGetGenresQuery(options);
     const [deleteGenre, { error: deleteError, isSuccess: deleteSuccess }] =
         useDeleteGenreMutation();
+
+    const [openConfirm, setOpenConfirm] = useState(false);
+    const [genreToDelete, setGenreToDelete] = useState<string | null>(null);
 
     function handleOnPageChange(page: number) {
         setOptions({ ...options, page: page + 1 });
@@ -35,8 +39,22 @@ export const GenreList = () => {
         setOptions({ ...options, search });
     }
 
-    async function handleDeleteGenre(id: string) {
-        await deleteGenre({ id });
+    function askDeleteConfirmation(id: string) {
+        setGenreToDelete(id);
+        setOpenConfirm(true);
+    }
+
+    async function confirmDelete() {
+        if (genreToDelete) {
+            await deleteGenre({ id: genreToDelete });
+            setGenreToDelete(null);
+            setOpenConfirm(false);
+        }
+    }
+
+    function handleCloseDialog() {
+        setOpenConfirm(false);
+        setGenreToDelete(null);
     }
 
     useEffect(() => {
@@ -75,7 +93,15 @@ export const GenreList = () => {
                 handleOnPageChange={handleOnPageChange}
                 handleFilterChange={handleFilterChange}
                 handleOnPageSizeChange={handleOnPageSizeChange}
-                handleDelete={handleDeleteGenre}
+                handleDelete={askDeleteConfirmation}
+            />
+
+            <ConfirmDeleteDialog
+                open={openConfirm}
+                onClose={handleCloseDialog}
+                onConfirm={confirmDelete}
+                title="Confirmar exclusão"
+                description="Você tem certeza que deseja deletar este gênero? Esta ação não pode ser desfeita."
             />
         </Box>
     );
