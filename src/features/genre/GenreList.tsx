@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { GenresTable } from "./components/GenresTable";
 import { useDeleteGenreMutation, useGetGenresQuery } from "./genreSlice";
-import { ConfirmDeleteDialog } from "./components/ConfirmDeleteDialog";
+import { ConfirmDeleteDialog } from "../../shared/components/ConfirmDeleteDialog";
 
 export const GenreList = () => {
 
