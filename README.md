@@ -1,27 +1,44 @@
-# vite-template-redux
+# 🎮 SAMUCAFLIX - Frontend - Admin de Vídeos
 
-Uses [Vite](https://vitejs.dev/), [Vitest](https://vitest.dev/), and [React Testing Library](https://github.com/testing-library/react-testing-library) to create a modern [React](https://react.dev/) app compatible with [Create React App](https://create-react-app.dev/)
+Aplicação administrativa para gerenciamento de vídeos, construída com tecnologias modernas e foco em performance e testes.
 
-```sh
-npx degit reduxjs/redux-templates/packages/vite-template-redux my-app
+## ✨ Tecnologias Utilizadas
+
+- ⚛️ [React](https://reactjs.org/)
+- ⚡ [Vite](https://vitejs.dev/)
+- 🔧 [Redux Toolkit](https://redux-toolkit.js.org/)
+- 🧱 [Mock Service Worker (MSW)](https://mswjs.io/)
+- 🎨 [Material UI v7](https://mui.com/)
+- 🧪 [Testing Library](https://testing-library.com/)
+- 🧪 [Vitest](https://vitest.dev/) (para testes unitários e de integração)
+
+## 📦 Instalação
+
+```bash
+git clone https://github.com/Lucassamuel97/admin-videos-react
+cd admin-videos-react
+yarn install
 ```
 
-## Goals
+## ▶️ Executando o projeto
 
-- Easy migration from Create React App or Vite
-- As beginner friendly as Create React App
-- Optimized performance compared to Create React App
-- Customizable without ejecting
+```bash
+yarn dev
+```
 
-## Scripts
+## 🧪 Executando os testes
 
-- `dev`/`start` - start dev server and open browser
-- `build` - build for production
-- `preview` - locally preview production build
-- `test` - launch test runner
+```bash
+yarn test
+```
 
-## Inspiration
+Com cobertura:
 
-- [Create React App](https://github.com/facebook/create-react-app/tree/main/packages/cra-template)
-- [Vite](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react)
-- [Vitest](https://github.com/vitest-dev/vitest/tree/main/examples/react-testing-lib)
+```bash
+yarn test --coverage 
+
+
+## 📄 Licença
+
+Este projeto está licenciado sob a licença MIT.
+
