@@ -5,23 +5,25 @@ import {
     renderWithProviders,
     screen,
     waitFor,
-} from "../../utils/test-utils";
+  } from "../../utils/test-utils";
+
 import { GenreList } from "./GenreList";
 import { baseUrl } from "../api/apiSlice";
 import { genreResponse, genreResponsePage2 } from "../mocks/genreMock";
+import { categoryResponse } from "../mocks/categoryMock";
 
 const handlers = [
     http.get(`${baseUrl}/genres`, async (request) => {
         const page = new URL(request.request.url).searchParams.get("page");
-        console.log(" PAGE page", page);
         if (page === "2") {
-            console.log("ENTROU page 2");
             return HttpResponse.json(genreResponsePage2);
         }
         await new Promise(resolve => setTimeout(resolve, 200));
         return HttpResponse.json(genreResponse);
     }),
-
+    http.get(`${baseUrl}/categories`, async ({ params }) => {
+        return HttpResponse.json({ categoryResponse });
+    }),
     http.delete(`${baseUrl}/genres/${genreResponse.data[0].id}`, async (request) => {
         const { id } = request.params;
         await new Promise(resolve => setTimeout(resolve, 200));
@@ -72,8 +74,13 @@ describe("GenreList", () => {
             expect(name).toBeInTheDocument();
         });
 
-        const nextButton = screen.getByTestId("KeyboardArrowRightIcon");
-        fireEvent.click(nextButton);
+        await waitFor(() => {
+            const nextButton = screen.getByTestId("KeyboardArrowRightIcon");
+            expect(nextButton).toBeEnabled();
+            fireEvent.click(nextButton);
+        });
+
+        screen.debug();
 
         await waitFor(() => {
             const name = screen.getByText("Norfolk Island 2");

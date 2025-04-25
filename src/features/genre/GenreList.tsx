@@ -24,11 +24,11 @@ export const GenreList = () => {
     const [genreToDelete, setGenreToDelete] = useState<string | null>(null);
 
     function handleOnPageChange(page: number) {
-        setOptions({ ...options, page: page + 1 });
+        setOptions(prev => ({ ...prev, page }));
     }
 
     function handleOnPageSizeChange(perPage: number) {
-        setOptions({ ...options, perPage });
+        setOptions(prev => ({ ...prev, perPage }));
     }
 
     function handleFilterChange(filterModel: GridFilterModel) {
