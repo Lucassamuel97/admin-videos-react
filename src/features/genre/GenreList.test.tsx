@@ -5,7 +5,7 @@ import {
     renderWithProviders,
     screen,
     waitFor,
-  } from "../../utils/test-utils";
+} from "../../utils/test-utils";
 
 import { GenreList } from "./GenreList";
 import { baseUrl } from "../api/apiSlice";
@@ -20,9 +20,6 @@ const handlers = [
         }
         await new Promise(resolve => setTimeout(resolve, 200));
         return HttpResponse.json(genreResponse);
-    }),
-    http.get(`${baseUrl}/categories`, async ({ params }) => {
-        return HttpResponse.json({ categoryResponse });
     }),
     http.delete(`${baseUrl}/genres/${genreResponse.data[0].id}`, async (request) => {
         const { id } = request.params;
@@ -105,25 +102,72 @@ describe("GenreList", () => {
         });
     });
 
-    // it("should handle delete genre", async () => {
-    //     renderWithProviders(<GenreList />);
+    it("should handle Delete Genre success", async () => {
+        renderWithProviders(<GenreList />);
 
-    //     await waitFor(() => {
-    //         const name = screen.getByText("Norfolk Island");
-    //         expect(name).toBeInTheDocument();
-    //     });
+        await waitFor(() => {
+            const name = screen.getByText("Norfolk Island");
+            expect(name).toBeInTheDocument();
+        });
 
-    //     const deleteButton = screen.getByTestId("DeleteIcon");
-    //     fireEvent.click(deleteButton);
+        const deleteButton = screen.getByTestId("DeleteIcon");
+        fireEvent.click(deleteButton);
 
-    //     const confirmButton = screen.getByText("Delete");
-    //     fireEvent.click(confirmButton);
+        fireEvent.click(screen.getByRole("button", { name: /deletar/i }));
 
-    //     await waitFor(() => {
-    //         const name = screen.getByText("Genre deleted");
-    //         expect(name).toBeInTheDocument();
-    //     });
-    // });
+        await waitFor(() => {
+            const name = screen.getByText("Genre deleted");
+            expect(name).toBeInTheDocument();
+        });
+    });
 
+    it("should handle Delete Genre error", async () => {
+        server.use(
+            http.delete(`${baseUrl}/genres/${genreResponse.data[0].id}`, async () => {
+                return HttpResponse.json(
+                    { error: "Algo deu errado!" },  // Corpo da resposta
+                    { status: 500 }  // Status HTTP 500
+                );
+            })
+        );
+
+        renderWithProviders(<GenreList />);
+
+        await waitFor(() => {
+            const name = screen.getByText("Norfolk Island");
+            expect(name).toBeInTheDocument();
+        });
+
+        const deleteButton = screen.getByTestId("DeleteIcon");
+        fireEvent.click(deleteButton);
+
+        fireEvent.click(screen.getByRole("button", { name: /deletar/i }));
+
+        await waitFor(() => {
+            const error = screen.getByText("Genre not deleted");
+            expect(error).toBeInTheDocument();
+        });
+    }
+    );
+
+    it("should handle the cancellation of the Delete Genre call", async () => {
+        renderWithProviders(<GenreList />);
+
+        await waitFor(() => {
+            const name = screen.getByText("Norfolk Island");
+            expect(name).toBeInTheDocument();
+        });
+
+        const deleteButton = screen.getByTestId("DeleteIcon");
+        fireEvent.click(deleteButton);
+
+        fireEvent.click(screen.getByRole("button", { name: /cancelar/i }));
+
+        await waitFor(() => {
+            const name = screen.getByText("Norfolk Island");
+            expect(name).toBeInTheDocument();
+        });
+    }
+    );
 
 });
