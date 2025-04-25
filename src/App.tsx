@@ -14,6 +14,7 @@ import { EditCastMember } from "./features/cast/EditCastMember";
 import { GenreCreate } from "./features/genre/GenreCreate";
 import { GenreEdit } from "./features/genre/GenreEdit";
 import { GenreList } from "./features/genre/GenreList";
+import { VideosList } from "./features/videos/VideoList";
 
 const App = () => {
   return (
@@ -43,6 +44,13 @@ const App = () => {
             <Route path="/genres" element={<GenreList />} />
             <Route path="/genres/create" element={<GenreCreate />} />
             <Route path="/genres/edit/:id" element={<GenreEdit/>} />
+
+            {/* Video */}
+            <Route path="/videos" element={<VideoList />} />
+            {/* <Route path="/videos/create" element={<VideoCreate />} /> */}
+            {/* <Route path="/videos/edit/:id" element={<VideoEdit />} /> */}
+
+            {/* 500 */}
 
             {/* 404 */}
             <Route path="*" element={
