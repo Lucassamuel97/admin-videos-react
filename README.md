@@ -1,4 +1,8 @@
-# 🎮 SAMUCAFLIX - Frontend - Admin de Vídeos
+<p align="center">
+  <img src="./logo.png" alt="Logo SamucaFlix" width="300"/>
+</p>
+
+# 🎬 SAMUCAFLIX - Frontend - Admin de Vídeos
 
 Aplicação administrativa para gerenciamento de vídeos, construída com tecnologias modernas e foco em performance e testes.
 
@@ -36,7 +40,7 @@ Com cobertura:
 
 ```bash
 yarn test --coverage 
-
+```
 
 ## 📄 Licença
 
