@@ -18,22 +18,23 @@ const handlers = [
         if (page === "2") {
             return HttpResponse.json(genreResponsePage2);
         }
-        await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise(resolve => setTimeout(resolve, 50));
         return HttpResponse.json(genreResponse);
     }),
-    http.delete(`${baseUrl}/genres/${genreResponse.data[0].id}`, async (request) => {
-        const { id } = request.params;
-        await new Promise(resolve => setTimeout(resolve, 200));
-        return HttpResponse.json({ message: `Genre ${id} deleted` });
+    http.delete(`${baseUrl}/genres/:id`, async ({ params }) => {
+        await new Promise(resolve => setTimeout(resolve, 50));
+        return HttpResponse.json({ message: `Genre ${params.id} deleted` });
     }),
 ];
 
 const server = setupServer(...handlers);
 
 describe("GenreList", () => {
-    afterAll(() => server.close());
-    beforeAll(() => server.listen());
-    afterEach(() => server.resetHandlers());
+    beforeEach(() => server.listen());
+    afterEach(() => {
+        server.resetHandlers();
+        server.close();
+    });
 
     it("should render correctly", () => {
         const { asFragment } = renderWithProviders(<GenreList />);

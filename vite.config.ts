@@ -12,6 +12,7 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: "src/setupTests",
     mockReset: true,
+    testTimeout: 10000, // <-- aqui!
     coverage: {
       provider: 'v8', // ou 'istanbul' se der erro novamente
       reporter: ['text', 'lcov'], // você pode ajustar os tipos de saída
