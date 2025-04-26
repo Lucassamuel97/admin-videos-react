@@ -46,7 +46,7 @@ const App = () => {
             <Route path="/genres/edit/:id" element={<GenreEdit/>} />
 
             {/* Video */}
-            <Route path="/videos" element={<VideoList />} />
+            <Route path="/videos" element={<VideosList />} />
             {/* <Route path="/videos/create" element={<VideoCreate />} /> */}
             {/* <Route path="/videos/edit/:id" element={<VideoEdit />} /> */}
 

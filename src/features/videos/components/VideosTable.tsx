@@ -111,68 +111,82 @@ export function VideosTable({
         const genres = params.value as Genre[];
         const twoFirstGenres = genres.slice(0, 2);
         const remainingGenres = genres.length - twoFirstGenres.length;
-    
+
         return (
-          <Box style={{ overflowX: "scroll" }}>
-            {twoFirstGenres.map((genre, index) => (
+            <Box
+            sx={{
+              display: "flex",
+              overflowX: {
+                xs: "auto",
+                md: "hidden",
+              },
+              overflowY: "hidden",
+              whiteSpace: "nowrap",
+              maxWidth: "100%",         // força o conteúdo a respeitar a célula
+              flexWrap: "nowrap",       // impede quebra em linha
+              gap: 1,
+            }}
+          >
+            {twoFirstGenres.map((genre) => (
               <Chip
-                key={index}
+                key={genre.name}
+                label={genre.name}
                 sx={{
                   fontSize: "0.6rem",
-                  marginRight: 1,
+                  flexShrink: 0,
                 }}
-                label={genre.name}
               />
             ))}
-    
+          
             {remainingGenres > 0 && (
               <Tooltip title={genres.map((genre) => genre.name).join(", ")}>
                 <Chip
+                  label={`+${remainingGenres}`}
                   sx={{
                     fontSize: "0.6rem",
-                    marginRight: 1,
+                    flexShrink: 0,
                   }}
-                  label={`+${remainingGenres}`}
                 />
               </Tooltip>
             )}
           </Box>
+          
         );
-      }
-    
-      function renderCategoriesCell(params: GridRenderCellParams) {
+    }
+
+    function renderCategoriesCell(params: GridRenderCellParams) {
         const categories = params.value as Category[];
         const twoFirstCategories = categories.slice(0, 2);
         const remainingCategories = categories.length - twoFirstCategories.length;
-    
+
         return (
-          <Box style={{ overflowX: "scroll" }}>
-            {twoFirstCategories.map((category, index) => (
-              <Chip
-                key={index}
-                sx={{
-                  fontSize: "0.6rem",
-                  marginRight: 1,
-                }}
-                label={category.name}
-              />
-            ))}
-            {remainingCategories > 0 && (
-              <Tooltip
-                title={categories.map((category) => category.name).join(", ")}
-              >
-                <Chip
-                  sx={{
-                    fontSize: "0.6rem",
-                    marginRight: 1,
-                  }}
-                  label={`+${remainingCategories}`}
-                />
-              </Tooltip>
-            )}
-          </Box>
+            <Box style={{ overflowX: "scroll" }}>
+                {twoFirstCategories.map((category, index) => (
+                    <Chip
+                        key={index}
+                        sx={{
+                            fontSize: "0.6rem",
+                            marginRight: 1,
+                        }}
+                        label={category.name}
+                    />
+                ))}
+                {remainingCategories > 0 && (
+                    <Tooltip
+                        title={categories.map((category) => category.name).join(", ")}
+                    >
+                        <Chip
+                            sx={{
+                                fontSize: "0.6rem",
+                                marginRight: 1,
+                            }}
+                            label={`+${remainingCategories}`}
+                        />
+                    </Tooltip>
+                )}
+            </Box>
         );
-      }
+    }
 
     const rows = data ? mapDataToGridRows(data) : [];
     const rowCount = data?.meta.total || 0;
