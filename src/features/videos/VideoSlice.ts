@@ -51,6 +51,10 @@ function deleteVideo({ id }: { id: string }) {
   return { url: `${endpointUrl}/${id}`, method: "DELETE" };
 }
 
+function getVideo({ id }: { id: string }) {
+  return `${endpointUrl}/${id}`;
+}
+
 export const videosSlice = apiSlice.injectEndpoints({
   endpoints: ({ query, mutation }) => ({
     getVideos: query<Results, VideoParams>({
@@ -61,10 +65,15 @@ export const videosSlice = apiSlice.injectEndpoints({
       query: deleteVideo,
       invalidatesTags: ["Videos"],
     }),
+    getVideo: query<Video, { id: string }>({
+      query: getVideo,
+      providesTags: ["Videos"],
+    }),
   }),
 });
 
 export const {
   useGetVideosQuery,
   useDeleteVideoMutation,
+  useGetVideoQuery,
 } = videosSlice;
