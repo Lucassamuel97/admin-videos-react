@@ -160,7 +160,20 @@ export function VideosTable({
         const remainingCategories = categories.length - twoFirstCategories.length;
 
         return (
-            <Box style={{ overflowX: "scroll" }}>
+            <Box
+            sx={{
+              display: "flex",
+              overflowX: {
+                xs: "auto",
+                md: "hidden",
+              },
+              overflowY: "hidden",
+              whiteSpace: "nowrap",
+              maxWidth: "100%",         // força o conteúdo a respeitar a célula
+              flexWrap: "nowrap",       // impede quebra em linha
+              gap: 1,
+            }}
+          >
                 {twoFirstCategories.map((category, index) => (
                     <Chip
                         key={index}
