@@ -65,7 +65,7 @@ export const videosSlice = apiSlice.injectEndpoints({
       query: deleteVideo,
       invalidatesTags: ["Videos"],
     }),
-    getVideo: query<Video, { id: string }>({
+    getVideo: query<Result, { id: string }>({
       query: getVideo,
       providesTags: ["Videos"],
     }),
