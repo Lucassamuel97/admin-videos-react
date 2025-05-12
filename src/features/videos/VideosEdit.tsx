@@ -3,8 +3,9 @@ import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FileObject, Video } from "../../types/Videos";
-import { initialState, useGetVideoQuery } from "./VideoSlice";
+import { initialState, useGetVideoQuery, useUpdateVideoMutation } from "./VideoSlice";
 import { VideosForm } from "./components/VideosForm";
+import { mapVideoToForm } from "./util";
 
 
 export function VideosEdit() {
@@ -13,10 +14,7 @@ export function VideosEdit() {
 
     const { data: video, isFetching } = useGetVideoQuery({ id });
     const [videoState, setVideoState] = useState<Video>(initialState);
-    const [status, setStatus] = useState({
-        isSuccess: false,
-        isError: false,
-    });
+    const [updateVideo, status] = useUpdateVideoMutation();
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
@@ -25,7 +23,7 @@ export function VideosEdit() {
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        // await updateVideo(mapVideoToForm(videoState));
+        await updateVideo(mapVideoToForm(videoState));
     }
 
     useEffect(() => {

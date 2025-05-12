@@ -49,6 +49,45 @@ export function VideosForm({
                                 inputProps={{ "data-testid": "title" }}
                             />
                         </FormControl>
+                        <FormControl fullWidth>
+                            <TextField
+                                multiline
+                                minRows={4}
+                                name="description"
+                                label="Description"
+                                disabled={isDisabled}
+                                onChange={handleChange}
+                                value={video.description}
+                                inputProps={{ "data-testid": "description" }}
+                            />
+                        </FormControl>
+
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                                <FormControl fullWidth>
+                                    <TextField
+                                        name="year_launched"
+                                        label="Year Launched"
+                                        disabled={isDisabled}
+                                        onChange={handleChange}
+                                        value={video.year_launched}
+                                        inputProps={{ "data-testid": "year_launched" }}
+                                    />
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <FormControl fullWidth>
+                                    <TextField
+                                        name="duration"
+                                        label="Duration"
+                                        disabled={false}
+                                        value={video.duration}
+                                        onChange={handleChange}
+                                        inputProps={{ "data-testid": "duration" }}
+                                    />
+                                </FormControl>
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </Grid>
                 <Box display="flex" sx={{ my: 2 }} gap={2}>
