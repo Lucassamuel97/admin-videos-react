@@ -1,4 +1,5 @@
 import {
+    Autocomplete,
     Button,
     FormControl,
     FormLabel,
@@ -87,6 +88,94 @@ export function VideosForm({
                                     />
                                 </FormControl>
                             </Grid>
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <Autocomplete
+                                multiple
+                                data-testid="categories-search"
+                                loading={isLoading}
+                                options={categories || []}
+                                isOptionEqualToValue={(option, value) => option.id === value.id}
+                                value={video.categories}
+                                disabled={isDisabled || !categories}
+                                getOptionLabel={(option) => option.name}
+                                renderOption={(props, option) => (
+                                    <li {...props} key={option.id}>
+                                        {option.name}
+                                    </li>
+                                )}
+                                onChange={(e, newValue) => {
+                                    handleChange({
+                                        target: { name: "categories", value: newValue },
+                                    } as any);
+                                }}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Categories"
+                                        data-testid="categories-input"
+                                    />
+                                )}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Autocomplete
+                                multiple
+                                data-testid="genres-search"
+                                loading={isLoading}
+                                options={genres || []}
+                                isOptionEqualToValue={(option, value) => option.id === value.id}
+                                value={video.genres}
+                                disabled={isDisabled || !genres}
+                                getOptionLabel={(option) => option.name}
+                                renderOption={(props, option) => (
+                                    <li {...props} key={option.id}>
+                                        {option.name}
+                                    </li>
+                                )}
+                                onChange={(e, newValue) => {
+                                    handleChange({
+                                        target: { name: "genres", value: newValue },
+                                    } as any);
+                                }}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Genres"
+                                        data-testid="genres-input"
+                                    />
+                                )}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Autocomplete
+                                multiple
+                                data-testid="cast-members-search"
+                                loading={isLoading}
+                                options={castMembers || []}
+                                isOptionEqualToValue={(option, value) => option.id === value.id}
+                                value={video.cast_members}
+                                disabled={isDisabled || !castMembers}
+                                getOptionLabel={(option) => option.name}
+                                renderOption={(props, option) => (
+                                    <li {...props} key={option.id}>
+                                        {option.name}
+                                    </li>
+                                )}
+                                onChange={(e, newValue) => {
+                                    handleChange({
+                                        target: { name: "cast_members", value: newValue },
+                                    } as any);
+                                }}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="Cast Members"
+                                        data-testid="cast-members-input"
+                                    />
+                                )}
+                            />
                         </Grid>
                     </Grid>
                 </Grid>
