@@ -3,7 +3,7 @@ import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FileObject, Video } from "../../types/Videos";
-import { initialState, useGetVideoQuery, useUpdateVideoMutation } from "./VideoSlice";
+import { initialState, useGetAllCastMembersQuery, useGetAllCategoriesQuery, useGetAllGenresQuery, useGetVideoQuery, useUpdateVideoMutation } from "./VideoSlice";
 import { VideosForm } from "./components/VideosForm";
 import { mapVideoToForm } from "./util";
 
@@ -12,6 +12,9 @@ export function VideosEdit() {
     const id = useParams<{ id: string }>().id as string;
     const { enqueueSnackbar } = useSnackbar();
 
+    const { data: genres } = useGetAllGenresQuery();
+    const { data: castMembers } = useGetAllCastMembersQuery();
+    const { data: categories } = useGetAllCategoriesQuery();
     const { data: video, isFetching } = useGetVideoQuery({ id });
     const [videoState, setVideoState] = useState<Video>(initialState);
     const [updateVideo, status] = useUpdateVideoMutation();
@@ -54,11 +57,11 @@ export function VideosEdit() {
 
                 <VideosForm
                     video={videoState}
-                    genres={[]}
+                    genres={genres?.data}
                     isLoading={isFetching}
                     isDisabled={isFetching}
-                    categories={[]}
-                    castMembers={[]}
+                    categories={categories?.data}
+                    castMembers={castMembers?.data}
                     handleChange={handleChange}
                     handleSubmit={handleSubmit}
                 />

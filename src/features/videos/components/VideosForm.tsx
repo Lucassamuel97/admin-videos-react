@@ -13,6 +13,7 @@ import { CastMember } from "../../../types/CastMembers";
 import { Category } from "../../../types/Category";
 import { Genre } from "../../../types/Genres";
 import { FileObject, Video } from "../../../types/Videos";
+import { AutoCompleteFields } from "../../../components/AutoCompleteFields";
 
 type Props = {
     video: Video;
@@ -91,92 +92,52 @@ export function VideosForm({
                         </Grid>
 
                         <Grid item xs={12}>
-                            <Autocomplete
-                                multiple
-                                data-testid="categories-search"
-                                loading={isLoading}
-                                options={categories || []}
-                                isOptionEqualToValue={(option, value) => option.id === value.id}
-                                value={video.categories}
-                                disabled={isDisabled || !categories}
-                                getOptionLabel={(option) => option.name}
-                                renderOption={(props, option) => (
-                                    <li {...props} key={option.id}>
-                                        {option.name}
-                                    </li>
-                                )}
-                                onChange={(e, newValue) => {
-                                    handleChange({
-                                        target: { name: "categories", value: newValue },
-                                    } as any);
-                                }}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label="Categories"
-                                        data-testid="categories-input"
-                                    />
-                                )}
+                            <AutoCompleteFields
+                                name="cast_members"
+                                label="Cast Members"
+                                isLoading={isLoading}
+                                isDisabled={isDisabled}
+                                values={video.cast_members}
+                                options={castMembers}
+                                handleChange={handleChange}
                             />
                         </Grid>
+
                         <Grid item xs={12}>
-                            <Autocomplete
-                                multiple
-                                data-testid="genres-search"
-                                loading={isLoading}
-                                options={genres || []}
-                                isOptionEqualToValue={(option, value) => option.id === value.id}
-                                value={video.genres}
-                                disabled={isDisabled || !genres}
-                                getOptionLabel={(option) => option.name}
-                                renderOption={(props, option) => (
-                                    <li {...props} key={option.id}>
-                                        {option.name}
-                                    </li>
-                                )}
-                                onChange={(e, newValue) => {
-                                    handleChange({
-                                        target: { name: "genres", value: newValue },
-                                    } as any);
-                                }}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
+                            <Grid
+                                container
+                                alignContent={"center"}
+                                justifyContent={"space-between"}
+                                spacing={2}
+                            >
+                                <Grid item xs={6}>
+                                    <AutoCompleteFields
+                                        name="genres"
                                         label="Genres"
-                                        data-testid="genres-input"
+                                        isLoading={isLoading}
+                                        isDisabled={isDisabled}
+                                        values={video.genres}
+                                        options={genres}
+                                        handleChange={handleChange}
                                     />
-                                )}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Autocomplete
-                                multiple
-                                data-testid="cast-members-search"
-                                loading={isLoading}
-                                options={castMembers || []}
-                                isOptionEqualToValue={(option, value) => option.id === value.id}
-                                value={video.cast_members}
-                                disabled={isDisabled || !castMembers}
-                                getOptionLabel={(option) => option.name}
-                                renderOption={(props, option) => (
-                                    <li {...props} key={option.id}>
-                                        {option.name}
-                                    </li>
-                                )}
-                                onChange={(e, newValue) => {
-                                    handleChange({
-                                        target: { name: "cast_members", value: newValue },
-                                    } as any);
-                                }}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label="Cast Members"
-                                        data-testid="cast-members-input"
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                    <AutoCompleteFields
+                                        name="categories"
+                                        label="Categories"
+                                        isLoading={isLoading}
+                                        isDisabled={false}
+                                        values={video.categories}
+                                        options={categories}
+                                        handleChange={handleChange}
                                     />
-                                )}
-                            />
+                                </Grid>
+                            </Grid>
                         </Grid>
+                    </Grid>
+                    <Grid item xs={12} md={6} sx={{ "& .MuiTextField-root": { my: 2 } }}>
+                        <h1>Upload</h1>
                     </Grid>
                 </Grid>
                 <Box display="flex" sx={{ my: 2 }} gap={2}>
