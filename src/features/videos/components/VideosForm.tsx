@@ -14,6 +14,7 @@ import { Category } from "../../../types/Category";
 import { Genre } from "../../../types/Genres";
 import { FileObject, Video } from "../../../types/Videos";
 import { AutoCompleteFields } from "../../../components/AutoCompleteFields";
+import { RatingsList } from "../../../components/RatingsList";
 
 type Props = {
     video: Video;
@@ -103,41 +104,51 @@ export function VideosForm({
                             />
                         </Grid>
 
-                        <Grid item xs={12}>
-                            <Grid
-                                container
-                                alignContent={"center"}
-                                justifyContent={"space-between"}
-                                spacing={2}
-                            >
-                                <Grid item xs={6}>
-                                    <AutoCompleteFields
-                                        name="genres"
-                                        label="Genres"
-                                        isLoading={isLoading}
-                                        isDisabled={isDisabled}
-                                        values={video.genres}
-                                        options={genres}
-                                        handleChange={handleChange}
-                                    />
-                                </Grid>
+                        <Grid
+                            container
+                            alignContent={"center"}
+                            justifyContent={"space-between"}
+                            spacing={2}
+                        >
+                            <Grid item xs={12}>
+                                <AutoCompleteFields
+                                    name="genres"
+                                    label="Genres"
+                                    isLoading={isLoading}
+                                    isDisabled={isDisabled}
+                                    values={video.genres}
+                                    options={genres}
+                                    handleChange={handleChange}
+                                />
+                            </Grid>
 
-                                <Grid item xs={6}>
-                                    <AutoCompleteFields
-                                        name="categories"
-                                        label="Categories"
-                                        isLoading={isLoading}
-                                        isDisabled={false}
-                                        values={video.categories}
-                                        options={categories}
-                                        handleChange={handleChange}
-                                    />
-                                </Grid>
+                            <Grid item xs={12}>
+                                <AutoCompleteFields
+                                    name="categories"
+                                    label="Categories"
+                                    isLoading={isLoading}
+                                    isDisabled={false}
+                                    values={video.categories}
+                                    options={categories}
+                                    handleChange={handleChange}
+                                />
                             </Grid>
                         </Grid>
                     </Grid>
                     <Grid item xs={12} md={6} sx={{ "& .MuiTextField-root": { my: 2 } }}>
-                        <h1>Upload</h1>
+                        <FormControl fullWidth>
+                            <Box mt={2} mb={2}>
+                                <FormLabel component="legend">Rating</FormLabel>
+                            </Box>
+                            <RadioGroup
+                                row
+                                name="rating"
+                                value={video.rating}
+                                onChange={handleChange}
+                            >
+                                <RatingsList isDisabled={isDisabled} />
+                            </RadioGroup>
+                        </FormControl>
                     </Grid>
                 </Grid>
                 <Box display="flex" sx={{ my: 2 }} gap={2}>
