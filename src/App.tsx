@@ -16,6 +16,7 @@ import { GenreEdit } from "./features/genre/GenreEdit";
 import { GenreList } from "./features/genre/GenreList";
 import { VideosList } from "./features/videos/VideoList";
 import { VideosEdit } from "./features/videos/VideosEdit";
+import { VideosCreate } from "./features/videos/VideosCreate";
 
 const App = () => {
   return (
@@ -48,7 +49,7 @@ const App = () => {
 
             {/* Video */}
             <Route path="/videos" element={<VideosList />} />
-            {/* <Route path="/videos/create" element={<VideoCreate />} /> */}
+            <Route path="/videos/create" element={<VideosCreate />} /> 
             {<Route path="/videos/edit/:id" element={<VideosEdit />} /> }
 
             {/* 500 */}
