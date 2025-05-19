@@ -1,8 +1,8 @@
 import { Box, ThemeProvider } from "@mui/system";
 import { Header } from "./components/Header";
 import { Layout } from "./components/Layout";
-import { appTheme } from "./config/theme";
-import { Typography } from "@mui/material";
+import { darkTheme } from "./config/theme";
+import { CssBaseline, Typography } from "@mui/material";
 import { Routes, Route, Link } from "react-router-dom";
 import { CategoryList } from "./features/categories/ListCategory";
 import { CategoryCreate } from "./features/categories/CreateCategory";
@@ -20,7 +20,8 @@ import { VideosCreate } from "./features/videos/VideosCreate";
 
 const App = () => {
   return (
-    <ThemeProvider theme={appTheme}>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
       <SnackbarProvider maxSnack={3} autoHideDuration={2000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
       <Box
       component="main"
