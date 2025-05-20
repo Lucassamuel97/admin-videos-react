@@ -18,52 +18,56 @@ import { VideosList } from "./features/videos/VideoList";
 import { VideosEdit } from "./features/videos/VideosEdit";
 import { VideosCreate } from "./features/videos/VideosCreate";
 import { useEffect, useState } from "react";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
 
 const App = () => {
 
   const [theme, setTheme] = useState(darkTheme);
+  const [soredThemeMode, setStoredThemeMode] = useLocalStorage<
+    "dark" | "light"
+  >("themeMode", "dark");
 
-  const handleThemeChange = () => {
-    setTheme((prevTheme) => (prevTheme === darkTheme ? lightTheme : darkTheme));
-    localStorage.setItem("theme", theme === darkTheme ? "light" : "dark");
+  const toggleTheme = () => {
+    const currentTheme = theme.palette.mode === "dark" ? lightTheme : darkTheme;
+    setTheme(currentTheme);
+    setStoredThemeMode(currentTheme.palette.mode);
   };
 
   useEffect(() => {
-    const storedTheme = localStorage.getItem("theme");
-    if (storedTheme) {
-      setTheme(storedTheme === "dark" ? darkTheme : lightTheme);
+    const currentTheme = soredThemeMode === "dark" ? darkTheme : lightTheme;
+    if (currentTheme) {
+      setTheme(currentTheme);
     }
-  }
-  , []);
+  }, [soredThemeMode]);
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <SnackbarProvider maxSnack={3} autoHideDuration={2000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
-        <Header theme={theme.palette.mode} handleThemeChange={handleThemeChange} />
+        <Header theme={theme.palette.mode} toggleTheme={toggleTheme} />
         <Layout>
           <Routes>
             <Route path="/" element={<CategoryList />} />
 
             {/* category */}
             <Route path="/categories" element={<CategoryList />} />
-            <Route path="/categories/create" element={<CategoryCreate/>} />
-            <Route path="/categories/edit/:id" element={<CategoryEdit/>} />
+            <Route path="/categories/create" element={<CategoryCreate />} />
+            <Route path="/categories/edit/:id" element={<CategoryEdit />} />
 
             {/* CastMembers */}
             <Route path="/cast-members" element={<CastMemberList />} />
-            <Route path="/cast-members/create" element={<CreateCastMember/>} />
-            <Route path="/cast-members/edit/:id" element={<EditCastMember/>} />
+            <Route path="/cast-members/create" element={<CreateCastMember />} />
+            <Route path="/cast-members/edit/:id" element={<EditCastMember />} />
             {/* Genre */}
             <Route path="/genres" element={<GenreList />} />
             <Route path="/genres/create" element={<GenreCreate />} />
-            <Route path="/genres/edit/:id" element={<GenreEdit/>} />
+            <Route path="/genres/edit/:id" element={<GenreEdit />} />
 
             {/* Video */}
             <Route path="/videos" element={<VideosList />} />
-            <Route path="/videos/create" element={<VideosCreate />} /> 
-            {<Route path="/videos/edit/:id" element={<VideosEdit />} /> }
+            <Route path="/videos/create" element={<VideosCreate />} />
+            {<Route path="/videos/edit/:id" element={<VideosEdit />} />}
 
             {/* 500 */}
 
