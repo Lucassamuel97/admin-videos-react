@@ -1,51 +1,35 @@
+import { CssBaseline, Typography } from "@mui/material";
 import { Box, ThemeProvider } from "@mui/system";
+import { SnackbarProvider } from 'notistack';
+import { Link, Route, Routes } from "react-router-dom";
 import { Header } from "./components/Header";
 import { Layout } from "./components/Layout";
-import { darkTheme, lightTheme } from "./config/theme";
-import { CssBaseline, Typography } from "@mui/material";
-import { Routes, Route, Link } from "react-router-dom";
-import { CategoryList } from "./features/categories/ListCategory";
-import { CategoryCreate } from "./features/categories/CreateCategory";
-import { CategoryEdit } from "./features/categories/EditCategory";
-import { SnackbarProvider } from 'notistack'
-import { CastMemberList } from "./features/cast/ListCastMembers";
 import { CreateCastMember } from "./features/cast/CreateCastMembers";
 import { EditCastMember } from "./features/cast/EditCastMember";
+import { CastMemberList } from "./features/cast/ListCastMembers";
+import { CategoryCreate } from "./features/categories/CreateCategory";
+import { CategoryEdit } from "./features/categories/EditCategory";
+import { CategoryList } from "./features/categories/ListCategory";
 import { GenreCreate } from "./features/genre/GenreCreate";
 import { GenreEdit } from "./features/genre/GenreEdit";
 import { GenreList } from "./features/genre/GenreList";
 import { VideosList } from "./features/videos/VideoList";
-import { VideosEdit } from "./features/videos/VideosEdit";
 import { VideosCreate } from "./features/videos/VideosCreate";
-import { useEffect, useState } from "react";
-import { useLocalStorage } from "./hooks/useLocalStorage";
+import { VideosEdit } from "./features/videos/VideosEdit";
+import { useAppTheme } from "./hooks/useAppTheme";
 
 
 const App = () => {
 
-  const [theme, setTheme] = useState(darkTheme);
-  const [soredThemeMode, setStoredThemeMode] = useLocalStorage<
-    "dark" | "light"
-  >("themeMode", "dark");
-
-  const toggleTheme = () => {
-    const currentTheme = theme.palette.mode === "dark" ? lightTheme : darkTheme;
-    setTheme(currentTheme);
-    setStoredThemeMode(currentTheme.palette.mode);
-  };
-
-  useEffect(() => {
-    const currentTheme = soredThemeMode === "dark" ? darkTheme : lightTheme;
-    if (currentTheme) {
-      setTheme(currentTheme);
-    }
-  }, [soredThemeMode]);
+  const [currentTheme, toggleCurrentTheme] = useAppTheme();
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={currentTheme}>
       <CssBaseline />
       <SnackbarProvider maxSnack={3} autoHideDuration={2000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
-        <Header theme={theme.palette.mode} toggleTheme={toggleTheme} />
+        <Header 
+        theme={currentTheme.palette.mode === "dark" ? "dark" : "light"} 
+        toggleTheme={toggleCurrentTheme} />
         <Layout>
           <Routes>
             <Route path="/" element={<CategoryList />} />
