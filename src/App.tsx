@@ -17,7 +17,7 @@ import { GenreList } from "./features/genre/GenreList";
 import { VideosList } from "./features/videos/VideoList";
 import { VideosEdit } from "./features/videos/VideosEdit";
 import { VideosCreate } from "./features/videos/VideosCreate";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const App = () => {
@@ -26,19 +26,22 @@ const App = () => {
 
   const handleThemeChange = () => {
     setTheme((prevTheme) => (prevTheme === darkTheme ? lightTheme : darkTheme));
+    localStorage.setItem("theme", theme === darkTheme ? "light" : "dark");
   };
+
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme) {
+      setTheme(storedTheme === "dark" ? darkTheme : lightTheme);
+    }
+  }
+  , []);
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <SnackbarProvider maxSnack={3} autoHideDuration={2000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
-      <Box
-      component="main"
-      sx={{
-        height: "100vh",
-        backgroundColor: (theme) => theme.palette.grey[900],
-        }}>
-        <Header handleThemeChange={handleThemeChange} />
+        <Header theme={theme.palette.mode} handleThemeChange={handleThemeChange} />
         <Layout>
           <Routes>
             <Route path="/" element={<CategoryList />} />
@@ -75,7 +78,6 @@ const App = () => {
             } />
           </Routes>
         </Layout>
-      </Box>
       </SnackbarProvider>
     </ThemeProvider>
   );
