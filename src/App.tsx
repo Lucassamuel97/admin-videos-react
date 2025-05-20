@@ -1,7 +1,7 @@
 import { Box, ThemeProvider } from "@mui/system";
 import { Header } from "./components/Header";
 import { Layout } from "./components/Layout";
-import { darkTheme } from "./config/theme";
+import { darkTheme, lightTheme } from "./config/theme";
 import { CssBaseline, Typography } from "@mui/material";
 import { Routes, Route, Link } from "react-router-dom";
 import { CategoryList } from "./features/categories/ListCategory";
@@ -17,10 +17,19 @@ import { GenreList } from "./features/genre/GenreList";
 import { VideosList } from "./features/videos/VideoList";
 import { VideosEdit } from "./features/videos/VideosEdit";
 import { VideosCreate } from "./features/videos/VideosCreate";
+import { useState } from "react";
+
 
 const App = () => {
+
+  const [theme, setTheme] = useState(darkTheme);
+
+  const handleThemeChange = () => {
+    setTheme((prevTheme) => (prevTheme === darkTheme ? lightTheme : darkTheme));
+  };
+
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <SnackbarProvider maxSnack={3} autoHideDuration={2000} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
       <Box
@@ -29,7 +38,7 @@ const App = () => {
         height: "100vh",
         backgroundColor: (theme) => theme.palette.grey[900],
         }}>
-        <Header />
+        <Header handleThemeChange={handleThemeChange} />
         <Layout>
           <Routes>
             <Route path="/" element={<CategoryList />} />
