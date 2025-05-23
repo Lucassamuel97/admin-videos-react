@@ -3,9 +3,10 @@ import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FileObject, Video } from "../../types/Videos";
-import { initialState, useGetAllCastMembersQuery, useGetAllCategoriesQuery, useGetAllGenresQuery, useGetVideoQuery, useUpdateVideoMutation } from "./VideoSlice";
+import { initialState, useGetAllCastMembersQuery, useGetAllGenresQuery, useGetVideoQuery, useUpdateVideoMutation } from "./VideoSlice";
 import { VideosForm } from "./components/VideosForm";
 import { mapVideoToForm } from "./util";
+import { useUniqueCategories } from "../../hooks/useUniqueCategories";
 
 
 export function VideosEdit() {
@@ -14,10 +15,13 @@ export function VideosEdit() {
 
     const { data: genres } = useGetAllGenresQuery();
     const { data: castMembers } = useGetAllCastMembersQuery();
-    const { data: categories } = useGetAllCategoriesQuery();
     const { data: video, isFetching } = useGetVideoQuery({ id });
     const [videoState, setVideoState] = useState<Video>(initialState);
     const [updateVideo, status] = useUpdateVideoMutation();
+    const [categories, setCategories] = useUniqueCategories(
+        videoState,
+        setVideoState
+    );
 
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         const { name, value } = event.target;
@@ -32,10 +36,9 @@ export function VideosEdit() {
     useEffect(() => {
         if (video) {
             setVideoState(video.data);
+            setCategories(video.data.categories || []);
         }
     }, [video]);
-
-    console.log("videoState", videoState);
 
     useEffect(() => {
         if (status.isSuccess) {
@@ -60,7 +63,7 @@ export function VideosEdit() {
                     genres={genres?.data}
                     isLoading={isFetching}
                     isDisabled={isFetching}
-                    categories={categories?.data}
+                    categories={categories}
                     castMembers={castMembers?.data}
                     handleChange={handleChange}
                     handleSubmit={handleSubmit}
