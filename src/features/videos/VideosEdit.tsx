@@ -18,6 +18,7 @@ export function VideosEdit() {
     const { data: video, isFetching } = useGetVideoQuery({ id });
     const [videoState, setVideoState] = useState<Video>(initialState);
     const [updateVideo, status] = useUpdateVideoMutation();
+    const [selectedFiles, setSelectedFiles] = useState<FileObject[]>([]);
     const [categories, setCategories] = useUniqueCategories(
         videoState,
         setVideoState
@@ -32,6 +33,14 @@ export function VideosEdit() {
         event.preventDefault();
         await updateVideo(mapVideoToForm(videoState));
     }
+
+    function handleAddFile({ name, file }: FileObject) {
+        setSelectedFiles([...selectedFiles, { name, file }]);
+      }
+    
+      function handleRemoveFile(name: string) {
+        setSelectedFiles(selectedFiles.filter((file) => file.name !== name));
+      }
 
     useEffect(() => {
         if (video) {
@@ -67,6 +76,8 @@ export function VideosEdit() {
                     castMembers={castMembers?.data}
                     handleChange={handleChange}
                     handleSubmit={handleSubmit}
+                    handleAddFile={handleAddFile}
+                    handleRemoveFile={handleRemoveFile}
                 />
             </Paper>
         </Box>

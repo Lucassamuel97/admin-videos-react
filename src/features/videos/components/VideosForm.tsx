@@ -15,6 +15,7 @@ import { Genre } from "../../../types/Genres";
 import { FileObject, Video } from "../../../types/Videos";
 import { AutoCompleteFields } from "../../../components/AutoCompleteFields";
 import { RatingsList } from "../../../components/RatingsList";
+import { InputFile } from "../../../components/InputFile";
 
 type Props = {
     video: Video;
@@ -25,6 +26,8 @@ type Props = {
     isLoading?: boolean;
     handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleAddFile: ({ name, file }: FileObject) => void;
+    handleRemoveFile: (name: string) => void;
 };
 
 export function VideosForm({
@@ -36,7 +39,17 @@ export function VideosForm({
     isLoading = false,
     handleSubmit,
     handleChange,
+    handleAddFile,
+    handleRemoveFile,
 }: Props) {
+
+    const handleAddThumbnail = (file: File) => {
+        handleAddFile({ name: "thumb_file", file });
+    };
+
+    const handleRemoveThumbnail = () => {
+        handleRemoveFile("thumb_file");
+    };
     return (
         <Box p={2}>
             <form onSubmit={handleSubmit}>
@@ -148,6 +161,15 @@ export function VideosForm({
                             >
                                 <RatingsList isDisabled={isDisabled} />
                             </RadioGroup>
+                        </FormControl>
+
+                        <FormControl fullWidth>
+                            <InputFile
+                                onAdd={handleAddThumbnail}
+                                onRemove={handleRemoveThumbnail}
+                                placeholder="Thumbnail"
+                                data-testid="thumbnail-input"
+                            />
                         </FormControl>
                     </Grid>
                 </Grid>
