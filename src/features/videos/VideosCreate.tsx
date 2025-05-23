@@ -82,6 +82,8 @@ export const VideosCreate = () => {
           castMembers={castMembers?.data}
           handleChange={handleChange}
           handleSubmit={handleSubmit}
+          handleAddFile={handleAddFile}
+          handleRemoveFile={handleRemoveFile}
         />
       </Paper>
     </Box>

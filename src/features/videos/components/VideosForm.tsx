@@ -50,6 +50,30 @@ export function VideosForm({
     const handleRemoveThumbnail = () => {
         handleRemoveFile("thumb_file");
     };
+
+    const handleAddBanner = (file: File) => {
+        handleAddFile({ name: "banner_file", file });
+    };
+
+    const handleAddTrailer = (file: File) => {
+        handleAddFile({ name: "trailer_file", file });
+    };
+
+    const handleAddVideo = (file: File) => {
+        handleAddFile({ name: "video_file", file });
+    };
+
+    const handleRemoveBanner = () => {
+        handleRemoveFile("banner_file");
+    };
+
+    const handleRemoveTrailer = () => {
+        handleRemoveFile("trailer_file");
+    };
+
+    const handleRemoveVideo = () => {
+        handleRemoveFile("video_file");
+    };
     return (
         <Box p={2}>
             <form onSubmit={handleSubmit}>
@@ -169,6 +193,27 @@ export function VideosForm({
                                 onRemove={handleRemoveThumbnail}
                                 placeholder="Thumbnail"
                                 data-testid="thumbnail-input"
+                            />
+                            <InputFile
+                                onAdd={handleAddBanner}
+                                onRemove={handleRemoveBanner}
+                                placeholder="Banner"
+                                data-testid="banner-input"
+                            />
+                        </FormControl>
+
+                        <FormControl fullWidth>
+                            <InputFile
+                                onAdd={handleAddVideo}
+                                onRemove={handleRemoveVideo}
+                                placeholder="Video"
+                                data-testid="video-input"
+                            />
+                            <InputFile
+                                onAdd={handleAddTrailer}
+                                onRemove={handleRemoveTrailer}
+                                placeholder="Trailer"
+                                data-testid="trailer-input"
                             />
                         </FormControl>
                     </Grid>
