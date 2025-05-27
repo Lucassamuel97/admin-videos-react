@@ -67,7 +67,7 @@ export const VideosList = () => {
 
 
     if (error) {
-        return <Typography>Error fetching genres</Typography>;
+        return <Typography>Error fetching videos</Typography>;
     }
 
     return (

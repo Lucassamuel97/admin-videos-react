@@ -42,7 +42,7 @@ export interface Video {
 export interface Links {
   first: string;
   last: string;
-  prev: null;
+  prev: string | null;
   next: string;
 }
 

@@ -40,7 +40,7 @@ const App = () => {
         {/* Video */}
         <Route path="/videos" element={<VideosList />} />
         <Route path="/videos/create" element={<VideosCreate />} />
-        {<Route path="/videos/edit/:id" element={<VideosEdit />} />}
+        <Route path="/videos/edit/:id" element={<VideosEdit />} />
 
         {/* 500 */}
 

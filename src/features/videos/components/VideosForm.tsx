@@ -120,7 +120,7 @@ export function VideosForm({
                                     <TextField
                                         name="duration"
                                         label="Duration"
-                                        disabled={false}
+                                        disabled={isDisabled}
                                         value={video.duration}
                                         onChange={handleChange}
                                         inputProps={{ "data-testid": "duration" }}
@@ -164,7 +164,7 @@ export function VideosForm({
                                     name="categories"
                                     label="Categories"
                                     isLoading={isLoading}
-                                    isDisabled={false}
+                                    isDisabled={isDisabled}
                                     values={video.categories}
                                     options={categories}
                                     handleChange={handleChange}

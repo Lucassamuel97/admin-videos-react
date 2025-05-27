@@ -2,7 +2,6 @@ import { Box, Paper, Typography } from "@mui/material";
 import { nanoid } from "nanoid";
 import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "../../app/hooks";
 import { useUniqueCategories } from "../../hooks/useUniqueCategories";
 import { FileObject, Video } from "../../types/Videos";
 import { VideosForm } from "./components/VideosForm";
@@ -22,7 +21,6 @@ export const VideosCreate = () => {
   const [videoState, setVideoState] = useState<Video>(initialState);
   const [caregories] = useUniqueCategories(videoState, setVideoState);
   const [selectedFiles, setSelectedFiles] = useState<FileObject[]>([]);
-  const dispatch = useAppDispatch();
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
