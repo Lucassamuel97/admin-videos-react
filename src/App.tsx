@@ -14,12 +14,14 @@ import { GenreList } from "./features/genre/GenreList";
 import { VideosList } from "./features/videos/VideoList";
 import { VideosCreate } from "./features/videos/VideosCreate";
 import { VideosEdit } from "./features/videos/VideosEdit";
+import { UploadList } from "./features/uploads/UploadList";
 
 
 const App = () => {
   return (
 
     <Layout>
+      <UploadList />
       <Routes>
         <Route path="/" element={<CategoryList />} />
 
