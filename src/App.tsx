@@ -21,7 +21,14 @@ const App = () => {
   return (
 
     <Layout>
-      <UploadList />
+      <UploadList 
+      uploads={
+        [
+          { name: "video1.mp4", progress: 50 },
+          { name: "video2.mp4", progress: 75 },
+          { name: "video3.mp4", progress: 100 }
+        ]
+      } />
       <Routes>
         <Route path="/" element={<CategoryList />} />
 
