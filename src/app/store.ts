@@ -9,7 +9,7 @@ import { uploadReducer } from "../features/uploads/UploadSlice"
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
 const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
-  uploadsSlice: uploadReducer,
+  uploadSlice: uploadReducer,
 })
 
 

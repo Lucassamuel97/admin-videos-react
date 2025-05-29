@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../app/store";
 
 export const STATUS = {
     IDDLE: "idle",
@@ -18,6 +19,11 @@ export interface UploadState {
     status?: Status;
 }
 
+type UploadProgress = {
+    id: string;
+    progress: number;
+};
+
 const initialState: UploadState[] = [];
 
 const uploadsSlice = createSlice({
@@ -33,12 +39,25 @@ const uploadsSlice = createSlice({
                 state.splice(index, 1);
             }
         },
+        setUploadProgress(state, action: PayloadAction<UploadProgress>) {
+            const { id, progress } = action.payload;
+            const upload = state.find((upload) => upload.id === id);
+
+            if (upload) {
+                upload.progress = progress;
+            }
+        },
     },
 });
 
 export const {
     addUpload,
     removeUpload,
+    setUploadProgress,
 } = uploadsSlice.actions;
+
+
+// selector
+export const selectUploads = (state: RootState) => state.uploadSlice;
 
 export const uploadReducer = uploadsSlice.reducer;

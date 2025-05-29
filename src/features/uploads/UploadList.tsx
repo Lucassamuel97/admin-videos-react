@@ -8,7 +8,9 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { GridExpandMoreIcon } from "@mui/x-data-grid";
-import { LinearWithValueLabel } from "./components/Progress";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { LinearProgressWithLabel } from "./components/Progress";
+import { selectUploads } from "./UploadSlice";
 
 type Upload = {
     name: string;
@@ -20,10 +22,11 @@ type Props = {
 };
 
 
-export const UploadList: React.FC<Props> = ({ uploads }) => {
+export const UploadList: React.FC<Props> = () => {
+    const uploadList = useAppSelector(selectUploads);
+    const dispatch = useAppDispatch();
 
-
-    if (!uploads || uploads.length === 0) {
+    if (!uploadList || uploadList.length === 0) {
         return null;
     }
     return (
@@ -45,7 +48,7 @@ export const UploadList: React.FC<Props> = ({ uploads }) => {
                 <AccordionDetails>
                     <List>
                         {
-                            uploads.map((upload, index) => (
+                            uploadList.map((upload, index) => (
                                 <ListItem key={index}>
                                     <Box
                                         sx={{
@@ -54,9 +57,9 @@ export const UploadList: React.FC<Props> = ({ uploads }) => {
                                             justifyContent: "space-between",
                                         }}
                                     >
-                                        <Typography>{upload.name}</Typography>
+                                        <Typography>{upload.field}</Typography>
                                         <ListItem>
-                                            <LinearWithValueLabel />
+                                            <LinearProgressWithLabel value={upload.progress} />
                                         </ListItem>
                                     </Box>
                                 </ListItem>
