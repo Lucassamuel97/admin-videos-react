@@ -2,12 +2,14 @@ import type { Action, ThunkAction } from "@reduxjs/toolkit"
 import { combineReducers, combineSlices, configureStore } from "@reduxjs/toolkit"
 import { setupListeners } from "@reduxjs/toolkit/query"
 import { apiSlice } from "../features/api/apiSlice"
+import { uploadReducer } from "../features/uploads/UploadSlice"
 
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
 const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
+  uploadsSlice: uploadReducer,
 })
 
 

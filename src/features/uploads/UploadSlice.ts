@@ -23,7 +23,15 @@ const initialState: UploadState[] = [];
 const uploadsSlice = createSlice({
   name: "uploads",
   initialState,
-  reducers: {},
+  reducers: {
+    addUpload(state, action: PayloadAction<UploadState>) {
+      state.push({ ...action.payload, status: "idle", progress: 0 });
+    },
+  },
 });
+
+export const {
+  addUpload
+} = uploadsSlice.actions;
 
 export const uploadReducer = uploadsSlice.reducer;
