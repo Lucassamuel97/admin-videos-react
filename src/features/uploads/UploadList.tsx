@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { GridExpandMoreIcon } from "@mui/x-data-grid";
+import { LinearWithValueLabel } from "./components/Progress";
 
 type Upload = {
     name: string;
@@ -54,7 +55,9 @@ export const UploadList: React.FC<Props> = ({ uploads }) => {
                                         }}
                                     >
                                         <Typography>{upload.name}</Typography>
-                                        <Typography>{upload.progress}%</Typography>
+                                        <ListItem>
+                                            <LinearWithValueLabel />
+                                        </ListItem>
                                     </Box>
                                 </ListItem>
                             ))
