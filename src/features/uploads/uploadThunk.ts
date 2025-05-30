@@ -1,13 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { setUploadProgress, UploadState } from "./UploadSlice";
+import { uploadProgress, uploadService } from "./uploadAPI";
+import { AxiosProgressEvent } from "axios";
 
 export const updateVideo = createAsyncThunk(
   "uploads/uploadVideo",
   async ({ videoId, id, file, field }: UploadState, thunkAPI) => {
-    const onUploadProgress = (progressEvent: ProgressEvent) => {
-      // TODO: Implement progress tracking logic
-        const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-        thunkAPI.dispatch(setUploadProgress({ id, progress }));
+    const onUploadProgress = (progressEvent: AxiosProgressEvent) => {
+      const progress = uploadProgress(progressEvent);
+      thunkAPI.dispatch(setUploadProgress({ id, progress }));
     };
 
     try {
