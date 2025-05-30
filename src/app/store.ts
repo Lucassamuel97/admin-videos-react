@@ -3,6 +3,7 @@ import { combineReducers, combineSlices, configureStore } from "@reduxjs/toolkit
 import { setupListeners } from "@reduxjs/toolkit/query"
 import { apiSlice } from "../features/api/apiSlice"
 import { uploadReducer } from "../features/uploads/UploadSlice"
+import { uploadQueue } from "../middleware/uploadQueue"
 
 
 // `combineSlices` automatically combines the reducers using
@@ -27,7 +28,9 @@ export const makeStore = (preloadedState?: Partial<RootState>) => {
     middleware: getDefaultMiddleware => {
       return getDefaultMiddleware({
         serializableCheck: false, // Disable serializable check for non-serializable data
-      }).concat(apiSlice.middleware)
+      })
+      .prepend(uploadQueue.middleware)
+      .concat(apiSlice.middleware)
     },
     preloadedState,
   })
