@@ -9,7 +9,6 @@ export const formdata = (field: string, file: File) => {
   const data = new FormData();
   data.append(field, file);
   data.append("_method", "PATCH");
-  data.append("Content-Type", "multipart/form-data");
   return data;
 };
 
