@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { setUploadProgress, UploadState } from "./UploadSlice";
-import { uploadProgress, uploadService } from "./uploadAPI";
 import { AxiosProgressEvent } from "axios";
+import { uploadProgress, uploadService } from "./uploadAPI";
+import { setUploadProgress, UploadState } from "./UploadSlice";
 
 export const updateVideo = createAsyncThunk(
   "uploads/uploadVideo",
