@@ -4,6 +4,7 @@ import { useSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useUniqueCategories } from "../../hooks/useUniqueCategories";
 import { FileObject, Video } from "../../types/Videos";
+import { addUpload } from "../uploads/UploadSlice";
 import { VideosForm } from "./components/VideosForm";
 import { mapVideoToForm } from "./util";
 import {
@@ -12,6 +13,7 @@ import {
   useGetAllCastMembersQuery,
   useGetAllGenresQuery
 } from "./VideoSlice";
+import { useAppDispatch } from "../../app/hooks";
 
 export const VideosCreate = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -21,6 +23,7 @@ export const VideosCreate = () => {
   const [videoState, setVideoState] = useState<Video>(initialState);
   const [caregories] = useUniqueCategories(videoState, setVideoState);
   const [selectedFiles, setSelectedFiles] = useState<FileObject[]>([]);
+  const dispatch = useAppDispatch();
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
@@ -38,6 +41,7 @@ export const VideosCreate = () => {
   function handleSubmitUploads(videoId: string) {
     selectedFiles.forEach(({ file, name }) => {
       const payload = { id: nanoid(), file, videoId, field: name };
+      dispatch(addUpload(payload));
     });
   }
 
