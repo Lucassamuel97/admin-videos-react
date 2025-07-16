@@ -6,6 +6,7 @@ import { Provider } from "react-redux"
 import App from "./App"
 import { store } from "./app/store"
 import "./index.css"
+import { KeycloakProvider } from "./providers/KeycloakProvider"
 
 const container = document.getElementById("root")
 
@@ -13,13 +14,15 @@ if (container) {
   const root = createRoot(container)
 
   root.render(
-    <React.StrictMode>
-        <BrowserRouter>
-          <Provider store={store}>
+    <Provider store={store}>
+      <KeycloakProvider>
+        <React.StrictMode>
+          <BrowserRouter>
             <App />
-          </Provider>          
-        </BrowserRouter>
-    </React.StrictMode>,
+          </BrowserRouter>
+        </React.StrictMode>
+      </KeycloakProvider>
+    </Provider>,
   )
 } else {
   throw new Error(
