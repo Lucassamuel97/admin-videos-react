@@ -4,6 +4,7 @@ import { setupListeners } from "@reduxjs/toolkit/query"
 import { apiSlice } from "../features/api/apiSlice"
 import { uploadReducer } from "../features/uploads/UploadSlice"
 import { uploadQueue } from "../middleware/uploadQueue"
+import { authSlice } from "../features/auth/authSlice"
 
 
 // `combineSlices` automatically combines the reducers using
@@ -11,6 +12,7 @@ import { uploadQueue } from "../middleware/uploadQueue"
 const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
   uploadSlice: uploadReducer,
+  auth: authSlice.reducer,
 })
 
 
