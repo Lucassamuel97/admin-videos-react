@@ -1,7 +1,7 @@
 import Keycloack from "keycloak-js";
 
 const keycloakConfig = {
-  url: "http://keycloak:8080",
+  url: "http://localhost:8180",
   realm: "React-auth",
   clientId: "react-auth",
 };
